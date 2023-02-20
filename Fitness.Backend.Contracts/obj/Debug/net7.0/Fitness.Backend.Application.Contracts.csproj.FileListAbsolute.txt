@@ -1,0 +1,15 @@
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Contracts\bin\Debug\net7.0\Fitness.Backend.Application.Contracts.deps.json
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Contracts\bin\Debug\net7.0\Fitness.Backend.Application.Contracts.dll
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Contracts\bin\Debug\net7.0\Fitness.Backend.Application.Contracts.pdb
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Contracts\bin\Debug\net7.0\Fitness.Backend.Application.DataContracts.dll
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Contracts\bin\Debug\net7.0\Fitness.Backend.Application.DataContracts.pdb
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Contracts\obj\Debug\net7.0\Fitness.Backend.Application.Contracts.csproj.AssemblyReference.cache
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Contracts\obj\Debug\net7.0\Fitness.Backend.Application.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Contracts\obj\Debug\net7.0\Fitness.Backend.Application.Contracts.AssemblyInfoInputs.cache
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Contracts\obj\Debug\net7.0\Fitness.Backend.Application.Contracts.AssemblyInfo.cs
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Contracts\obj\Debug\net7.0\Fitness.Backend.Application.Contracts.csproj.CoreCompileInputs.cache
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Contracts\obj\Debug\net7.0\Fitness.Backend.Application.Contracts.csproj.CopyComplete
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Contracts\obj\Debug\net7.0\Fitness.Backend.Application.Contracts.dll
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Contracts\obj\Debug\net7.0\refint\Fitness.Backend.Application.Contracts.dll
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Contracts\obj\Debug\net7.0\Fitness.Backend.Application.Contracts.pdb
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Contracts\obj\Debug\net7.0\ref\Fitness.Backend.Application.Contracts.dll

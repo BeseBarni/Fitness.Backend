@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "aK0Tcp7Bzz2YA37RmnufOI0srMPmLjRHzWWoLxjHL9w=",
+  "Source": "Fitness.Backend.WebApi",
+  "BasePath": "_content/Fitness.Backend.WebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

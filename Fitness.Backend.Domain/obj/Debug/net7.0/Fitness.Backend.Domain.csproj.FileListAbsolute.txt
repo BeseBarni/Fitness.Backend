@@ -1,0 +1,17 @@
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Domain\obj\Debug\net7.0\Fitness.Backend.Domain.csproj.AssemblyReference.cache
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Domain\obj\Debug\net7.0\Fitness.Backend.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Domain\obj\Debug\net7.0\Fitness.Backend.Domain.AssemblyInfoInputs.cache
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Domain\obj\Debug\net7.0\Fitness.Backend.Domain.AssemblyInfo.cs
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Domain\obj\Debug\net7.0\Fitness.Backend.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Domain\obj\Debug\net7.0\Fitness.Backend.Domain.dll
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Domain\obj\Debug\net7.0\refint\Fitness.Backend.Domain.dll
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Domain\obj\Debug\net7.0\Fitness.Backend.Domain.pdb
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Domain\bin\Debug\net7.0\Fitness.Backend.Domain.deps.json
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Domain\bin\Debug\net7.0\Fitness.Backend.Domain.dll
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Domain\bin\Debug\net7.0\Fitness.Backend.Domain.pdb
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Domain\bin\Debug\net7.0\Fitness.Backend.Application.DataContracts.dll
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Domain\bin\Debug\net7.0\Fitness.Backend.Application.DataContracts.pdb
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Domain\obj\Debug\net7.0\Fitness.Backend.Domain.csproj.CopyComplete
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Domain\obj\Debug\net7.0\ref\Fitness.Backend.Domain.dll
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Domain\bin\Debug\net7.0\Fitness.Backend.Domain.runtimeconfig.json
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Domain\obj\Debug\net7.0\Fitness.Backend.Domain.genruntimeconfig.cache
