@@ -20,7 +20,7 @@ namespace Fitness.Backend.WebApi.Controllers
             _logger = logger;
         }
 
-        [Authorize]
+        
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {

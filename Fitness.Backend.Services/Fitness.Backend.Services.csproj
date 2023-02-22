@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Fitness.Backend.WebApi\Fitness.Backend.WebApi.csproj" />
+    <ProjectReference Include="..\Fitness.Backend.Contracts\Fitness.Backend.Application.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

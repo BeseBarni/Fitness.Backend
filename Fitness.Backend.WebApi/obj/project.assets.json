@@ -1905,7 +1905,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
-          "Fitness.Backend.Application.DataContracts": "1.0.0"
+          "Fitness.Backend.Application.DataContracts": "1.0.0",
+          "System.IdentityModel.Tokens.Jwt": "6.21.0"
         },
         "compile": {
           "bin/placeholder/Fitness.Backend.Application.Contracts.dll": {}
@@ -1954,6 +1955,21 @@
         },
         "runtime": {
           "bin/placeholder/Fitness.Backend.Repositories.dll": {}
+        }
+      },
+      "Fitness.Backend.Services/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "Fitness.Backend.Application.Contracts": "1.0.0",
+          "Microsoft.Extensions.Configuration": "7.0.0",
+          "System.IdentityModel.Tokens.Jwt": "6.21.0"
+        },
+        "compile": {
+          "bin/placeholder/Fitness.Backend.Services.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Fitness.Backend.Services.dll": {}
         }
       }
     }
@@ -5544,6 +5560,11 @@
       "type": "project",
       "path": "../Fitness.Backend.Repositories/Fitness.Backend.Repositories.csproj",
       "msbuildProject": "../Fitness.Backend.Repositories/Fitness.Backend.Repositories.csproj"
+    },
+    "Fitness.Backend.Services/1.0.0": {
+      "type": "project",
+      "path": "../Fitness.Backend.Services/Fitness.Backend.Services.csproj",
+      "msbuildProject": "../Fitness.Backend.Services/Fitness.Backend.Services.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -5553,6 +5574,7 @@
       "Fitness.Backend.Application.DataContracts >= 1.0.0",
       "Fitness.Backend.Domain >= 1.0.0",
       "Fitness.Backend.Repositories >= 1.0.0",
+      "Fitness.Backend.Services >= 1.0.0",
       "Microsoft.AspNetCore.ApiAuthorization.IdentityServer >= 7.0.3",
       "Microsoft.AspNetCore.Authentication.Google >= 7.0.3",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 7.0.3",
@@ -5614,6 +5636,9 @@
             },
             "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Repositories\\Fitness.Backend.Repositories.csproj": {
               "projectPath": "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Repositories\\Fitness.Backend.Repositories.csproj"
+            },
+            "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Services\\Fitness.Backend.Services.csproj": {
+              "projectPath": "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Services\\Fitness.Backend.Services.csproj"
             }
           }
         }

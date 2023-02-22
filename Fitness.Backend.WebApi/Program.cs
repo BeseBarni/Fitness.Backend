@@ -1,8 +1,10 @@
 using Fitness.Backend.Application.BusinessLogic;
 using Fitness.Backend.Application.Contracts.BusinessLogic;
 using Fitness.Backend.Application.Contracts.Repositories;
+using Fitness.Backend.Application.Contracts.Services;
 using Fitness.Backend.Application.DataContracts.Models;
 using Fitness.Backend.Repositories;
+using Fitness.Backend.Services.Auth;
 using Fitness.Backend.WebApi.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,7 +23,8 @@ builder.Services.AddScoped<IClientBusinessLogic, ClientBusinessLogic>();
 builder.Services.AddScoped<IAdminBusinessLogic, AdminBusinessLogic>();
 builder.Services.AddScoped<IInstructorBusinessLogic, InstructorBusinessLogic>();
 builder.Services.AddScoped<ILessonRepository, LessonRepository>();
-
+builder.Services.AddScoped<IAuthTokenService, AuthTokenService>();
+builder.Services.AddCors();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -61,7 +64,11 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AuthDbContext>();
 
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
         .AddJwtBearer(options =>
         {
             options.TokenValidationParameters = new TokenValidationParameters
@@ -95,7 +102,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors(options =>
+{
+    options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+});
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

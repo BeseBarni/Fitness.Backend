@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Fitness.Backend.WebApi.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
     [ApiController]
     public class LessonController : ControllerBase
     {

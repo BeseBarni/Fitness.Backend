@@ -35,6 +35,7 @@
     <ProjectReference Include="..\Fitness.Backend.DataContracts\Fitness.Backend.Application.DataContracts.csproj" />
     <ProjectReference Include="..\Fitness.Backend.Domain\Fitness.Backend.Domain.csproj" />
     <ProjectReference Include="..\Fitness.Backend.Repositories\Fitness.Backend.Repositories.csproj" />
+    <ProjectReference Include="..\Fitness.Backend.Services\Fitness.Backend.Services.csproj" />
   </ItemGroup>
 
 </Project>
