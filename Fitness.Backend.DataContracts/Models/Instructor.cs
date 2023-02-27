@@ -8,9 +8,9 @@ namespace Fitness.Backend.Application.DataContracts.Models
 {
     public class Instructor
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public City City { get; set; }
+        public int Id { get; set; }
+        public string UserId { get; set; }
         public List<Sport> Sports { get; set; }
+        public string Description { get; set; }
     }
 }

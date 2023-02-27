@@ -19,11 +19,11 @@ namespace Fitness.Backend.Domain.DbContexts
         public DbSet<Sport> Sports { get; set; }
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<City> Cities { get; set; }
-        public DbSet<InstructorBio> InstructorBio { get; set; }
         public DbSet<User> Clients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             var cities = new List<City>
             {
                 new City { PostalCode = 1011, Name = "Budapest", Id = 1 },

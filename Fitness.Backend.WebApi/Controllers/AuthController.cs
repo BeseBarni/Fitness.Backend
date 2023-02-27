@@ -55,6 +55,8 @@ namespace Fitness.Backend.WebApi.Controllers
         public async Task<IActionResult> Register([FromBody] LoginUser user)
         {
             var result = await userManager.CreateAsync(new ApplicationUser { UserName = user.Name, Email = user.Email, EmailConfirmed = true }, user.Password);
+            var authUser = await userManager.FindByNameAsync(user.Name);
+            
             return Ok(result);
         }
 

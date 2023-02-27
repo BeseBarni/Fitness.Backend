@@ -19,6 +19,8 @@ namespace Fitness.Backend.Application.DataContracts.Models
         public int MaxNumber { get; set; }
         public Sport Sport { get; set; }
         public string InstructorId { get; set; }
+
+        public List<User> Users { get; set; }
         public Day Day { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }

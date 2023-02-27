@@ -11,5 +11,7 @@ namespace Fitness.Backend.Application.DataContracts.Models
         public string Id { get; set; }
 
         public List<Lesson> Lessons { get; set; }
+        public string Name { get; set; }
+        public City? City { get; set; }
     }
 }
