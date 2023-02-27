@@ -1,21 +1,21 @@
 {
   "version": 2,
-  "dgSpecHash": "J/YyPj/Ab18bYSzIhu9gS6yBZ/yx3ajF/1YzwRDcntuxP0+SDaCVpyC2ahhaIoMhsheBhpia1QjbT0t61ST//g==",
+  "dgSpecHash": "aaxbp8+154gu1PnOEb9vUty+CuUJ+tM0FMOhzhjpi3t3opbSi2i0NZ9WbZO4swI2ffpb4CiDEwiv334QZhSXZA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.DataContracts\\Fitness.Backend.Application.DataContracts.csproj",
+  "projectFilePath": "C:\\Users\\sipos\\source\\repos\\Fitness.Backend\\Fitness.Backend.DataContracts\\Fitness.Backend.Application.DataContracts.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Barni\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\7.0.3\\microsoft.aspnetcore.cryptography.internal.7.0.3.nupkg.sha512",
-    "C:\\Users\\Barni\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\7.0.3\\microsoft.aspnetcore.cryptography.keyderivation.7.0.3.nupkg.sha512",
-    "C:\\Users\\Barni\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.3\\microsoft.entityframeworkcore.abstractions.7.0.3.nupkg.sha512",
-    "C:\\Users\\Barni\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
-    "C:\\Users\\Barni\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
-    "C:\\Users\\Barni\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
-    "C:\\Users\\Barni\\.nuget\\packages\\microsoft.extensions.identity.core\\7.0.3\\microsoft.extensions.identity.core.7.0.3.nupkg.sha512",
-    "C:\\Users\\Barni\\.nuget\\packages\\microsoft.extensions.identity.stores\\7.0.3\\microsoft.extensions.identity.stores.7.0.3.nupkg.sha512",
-    "C:\\Users\\Barni\\.nuget\\packages\\microsoft.extensions.logging\\7.0.0\\microsoft.extensions.logging.7.0.0.nupkg.sha512",
-    "C:\\Users\\Barni\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
-    "C:\\Users\\Barni\\.nuget\\packages\\microsoft.extensions.options\\7.0.1\\microsoft.extensions.options.7.0.1.nupkg.sha512",
-    "C:\\Users\\Barni\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512"
+    "C:\\Users\\sipos\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\7.0.3\\microsoft.aspnetcore.cryptography.internal.7.0.3.nupkg.sha512",
+    "C:\\Users\\sipos\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\7.0.3\\microsoft.aspnetcore.cryptography.keyderivation.7.0.3.nupkg.sha512",
+    "C:\\Users\\sipos\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.3\\microsoft.entityframeworkcore.abstractions.7.0.3.nupkg.sha512",
+    "C:\\Users\\sipos\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\sipos\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
+    "C:\\Users\\sipos\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\sipos\\.nuget\\packages\\microsoft.extensions.identity.core\\7.0.3\\microsoft.extensions.identity.core.7.0.3.nupkg.sha512",
+    "C:\\Users\\sipos\\.nuget\\packages\\microsoft.extensions.identity.stores\\7.0.3\\microsoft.extensions.identity.stores.7.0.3.nupkg.sha512",
+    "C:\\Users\\sipos\\.nuget\\packages\\microsoft.extensions.logging\\7.0.0\\microsoft.extensions.logging.7.0.0.nupkg.sha512",
+    "C:\\Users\\sipos\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\sipos\\.nuget\\packages\\microsoft.extensions.options\\7.0.1\\microsoft.extensions.options.7.0.1.nupkg.sha512",
+    "C:\\Users\\sipos\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512"
   ],
   "logs": []
 }

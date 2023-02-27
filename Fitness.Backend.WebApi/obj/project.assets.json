@@ -5592,23 +5592,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Barni\\.nuget\\packages\\": {},
+    "C:\\Users\\sipos\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.WebApi\\Fitness.Backend.WebApi.csproj",
+      "projectUniqueName": "C:\\Users\\sipos\\source\\repos\\Fitness.Backend\\Fitness.Backend.WebApi\\Fitness.Backend.WebApi.csproj",
       "projectName": "Fitness.Backend.WebApi",
-      "projectPath": "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.WebApi\\Fitness.Backend.WebApi.csproj",
-      "packagesPath": "C:\\Users\\Barni\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.WebApi\\obj\\",
+      "projectPath": "C:\\Users\\sipos\\source\\repos\\Fitness.Backend\\Fitness.Backend.WebApi\\Fitness.Backend.WebApi.csproj",
+      "packagesPath": "C:\\Users\\sipos\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\sipos\\source\\repos\\Fitness.Backend\\Fitness.Backend.WebApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Barni\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\sipos\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -5617,30 +5617,29 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Application\\Fitness.Backend.Application.csproj": {
-              "projectPath": "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Application\\Fitness.Backend.Application.csproj"
+            "C:\\Users\\sipos\\source\\repos\\Fitness.Backend\\Fitness.Backend.Application\\Fitness.Backend.Application.csproj": {
+              "projectPath": "C:\\Users\\sipos\\source\\repos\\Fitness.Backend\\Fitness.Backend.Application\\Fitness.Backend.Application.csproj"
             },
-            "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Contracts\\Fitness.Backend.Application.Contracts.csproj": {
-              "projectPath": "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Contracts\\Fitness.Backend.Application.Contracts.csproj"
+            "C:\\Users\\sipos\\source\\repos\\Fitness.Backend\\Fitness.Backend.Contracts\\Fitness.Backend.Application.Contracts.csproj": {
+              "projectPath": "C:\\Users\\sipos\\source\\repos\\Fitness.Backend\\Fitness.Backend.Contracts\\Fitness.Backend.Application.Contracts.csproj"
             },
-            "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.DataContracts\\Fitness.Backend.Application.DataContracts.csproj": {
-              "projectPath": "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.DataContracts\\Fitness.Backend.Application.DataContracts.csproj"
+            "C:\\Users\\sipos\\source\\repos\\Fitness.Backend\\Fitness.Backend.DataContracts\\Fitness.Backend.Application.DataContracts.csproj": {
+              "projectPath": "C:\\Users\\sipos\\source\\repos\\Fitness.Backend\\Fitness.Backend.DataContracts\\Fitness.Backend.Application.DataContracts.csproj"
             },
-            "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Domain\\Fitness.Backend.Domain.csproj": {
-              "projectPath": "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Domain\\Fitness.Backend.Domain.csproj"
+            "C:\\Users\\sipos\\source\\repos\\Fitness.Backend\\Fitness.Backend.Domain\\Fitness.Backend.Domain.csproj": {
+              "projectPath": "C:\\Users\\sipos\\source\\repos\\Fitness.Backend\\Fitness.Backend.Domain\\Fitness.Backend.Domain.csproj"
             },
-            "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Repositories\\Fitness.Backend.Repositories.csproj": {
-              "projectPath": "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Repositories\\Fitness.Backend.Repositories.csproj"
+            "C:\\Users\\sipos\\source\\repos\\Fitness.Backend\\Fitness.Backend.Repositories\\Fitness.Backend.Repositories.csproj": {
+              "projectPath": "C:\\Users\\sipos\\source\\repos\\Fitness.Backend\\Fitness.Backend.Repositories\\Fitness.Backend.Repositories.csproj"
             },
-            "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Services\\Fitness.Backend.Services.csproj": {
-              "projectPath": "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Services\\Fitness.Backend.Services.csproj"
+            "C:\\Users\\sipos\\source\\repos\\Fitness.Backend\\Fitness.Backend.Services\\Fitness.Backend.Services.csproj": {
+              "projectPath": "C:\\Users\\sipos\\source\\repos\\Fitness.Backend\\Fitness.Backend.Services\\Fitness.Backend.Services.csproj"
             }
           }
         }
@@ -5727,7 +5726,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

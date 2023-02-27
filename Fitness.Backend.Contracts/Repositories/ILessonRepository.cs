@@ -16,10 +16,8 @@ namespace Fitness.Backend.Application.Contracts.Repositories
         public Task<DbResult> UpdateLessonAsync(Lesson lesson);
         public Task<IEnumerable<Sport>> GetSportsAsync();
 
-        Task<IEnumerable<Lesson>> GetLessonsAsync(int cityId);
-        Task<IEnumerable<Lesson>> GetLessonsAsync(Sport sport);
-        Task<IEnumerable<Lesson>> GetLessonsAsync(string instructorId, int sportId);
-        Task<IEnumerable<Lesson>> GetLessonsAsync(int cityId, int sportId);
+        public Task<IEnumerable<Lesson>> GetLessonsAsync(int? cityId, int? sportId, string? instructorId, Day? day);
+
 
 
 

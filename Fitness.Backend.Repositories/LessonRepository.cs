@@ -22,6 +22,15 @@ namespace Fitness.Backend.Repositories
             this.context = context;
         }
 
+        public async Task<IEnumerable<Lesson>> GetLessonsAsync(int? cityId, int? sportId, string? instructorId, Day? day)
+        {
+            return await context.Lessons.Where(p => (cityId == null || p.CityId == cityId) && 
+            (sportId == null || p.Sport.Id == sportId) &&
+            (instructorId == null || p.InstructorId == instructorId) &&
+            (day == null || p.Day == day)).ToListAsync();
+        }
+
+
         public async Task<Lesson?> GetLessonAsync(int lessonId)
         {
             return await context.Lessons.Where(p => p.Id == lessonId).FirstOrDefaultAsync();
