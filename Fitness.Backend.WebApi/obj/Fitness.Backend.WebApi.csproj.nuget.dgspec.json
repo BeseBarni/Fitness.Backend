@@ -179,6 +179,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.Abstractions": {
+              "target": "Package",
+              "version": "[7.0.3, )"
+            },
             "Microsoft.Extensions.Identity.Stores": {
               "target": "Package",
               "version": "[7.0.3, )"
@@ -325,6 +329,9 @@
             "projectReferences": {
               "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Contracts\\Fitness.Backend.Application.Contracts.csproj": {
                 "projectPath": "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Contracts\\Fitness.Backend.Application.Contracts.csproj"
+              },
+              "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Domain\\Fitness.Backend.Domain.csproj": {
+                "projectPath": "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Domain\\Fitness.Backend.Domain.csproj"
               }
             }
           }

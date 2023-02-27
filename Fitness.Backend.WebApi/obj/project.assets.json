@@ -1919,6 +1919,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
+          "Microsoft.EntityFrameworkCore.Abstractions": "7.0.3",
           "Microsoft.Extensions.Identity.Stores": "7.0.3"
         },
         "compile": {
@@ -1948,7 +1949,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
-          "Fitness.Backend.Application.Contracts": "1.0.0"
+          "Fitness.Backend.Application.Contracts": "1.0.0",
+          "Fitness.Backend.Domain": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Fitness.Backend.Repositories.dll": {}

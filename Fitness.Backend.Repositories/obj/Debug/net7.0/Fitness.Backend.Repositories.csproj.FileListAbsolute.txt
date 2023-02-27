@@ -49,3 +49,5 @@ C:\Users\Barni\Desktop\backend2\Fitness.Backend.Repositories\obj\Debug\net7.0\Fi
 C:\Users\Barni\Desktop\backend2\Fitness.Backend.Repositories\obj\Debug\net7.0\refint\Fitness.Backend.Repositories.dll
 C:\Users\Barni\Desktop\backend2\Fitness.Backend.Repositories\obj\Debug\net7.0\Fitness.Backend.Repositories.pdb
 C:\Users\Barni\Desktop\backend2\Fitness.Backend.Repositories\obj\Debug\net7.0\ref\Fitness.Backend.Repositories.dll
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Repositories\bin\Debug\net7.0\Fitness.Backend.Domain.dll
+C:\Users\Barni\source\repos\Fitness.Backend\Fitness.Backend.Repositories\bin\Debug\net7.0\Fitness.Backend.Domain.pdb

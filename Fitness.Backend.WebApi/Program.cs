@@ -3,9 +3,11 @@ using Fitness.Backend.Application.Contracts.BusinessLogic;
 using Fitness.Backend.Application.Contracts.Repositories;
 using Fitness.Backend.Application.Contracts.Services;
 using Fitness.Backend.Application.DataContracts.Models;
+using Fitness.Backend.Domain.DbContexts;
+using Fitness.Backend.Domain.Seeders;
 using Fitness.Backend.Repositories;
 using Fitness.Backend.Services.Auth;
-using Fitness.Backend.WebApi.Data;
+using Fitness.Backend.WebApi.HostedServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Negotiate;
@@ -24,6 +26,8 @@ builder.Services.AddScoped<IAdminBusinessLogic, AdminBusinessLogic>();
 builder.Services.AddScoped<IInstructorBusinessLogic, InstructorBusinessLogic>();
 builder.Services.AddScoped<ILessonRepository, LessonRepository>();
 builder.Services.AddScoped<IAuthTokenService, AuthTokenService>();
+builder.Services.AddTransient<AuthSeeder>();
+builder.Services.AddTransient<AuthDbContext>();
 builder.Services.AddCors();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -55,10 +59,14 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+
+//Itt át kell írni a connection string-et
 var connectionString = builder.Configuration.GetConnectionString("AuthServer") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<AuthDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connectionString));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AuthDbContext>();
@@ -94,6 +102,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.SignIn.RequireConfirmedEmail = false;
     //...
 });
+builder.Services.AddHostedService<DatabaseSeederService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -112,5 +121,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.Run();

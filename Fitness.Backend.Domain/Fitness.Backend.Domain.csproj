@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Fitness.Backend.DataContracts\Fitness.Backend.Application.DataContracts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\AppDb\" />
+  </ItemGroup>
+
 </Project>

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Fitness.Backend.WebApi.Migrations
+namespace Fitness.Backend.Domain.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

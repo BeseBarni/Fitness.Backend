@@ -361,3 +361,19 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Fitness.Backend.Application/bin/
+/Fitness.Backend.Contracts/bin/
+/Fitness.Backend.DataContracts/bin/
+/Fitness.Backend.Domain/bin/
+/Fitness.Backend.Repositories/bin/
+/Fitness.Backend.Services/bin/
+/Fitness.Backend.WebApi/bin/
+
+/Fitness.Backend.Application/obj/
+/Fitness.Backend.Contracts/obj/
+/Fitness.Backend.DataContracts/obj/
+/Fitness.Backend.Domain/obj/
+/Fitness.Backend.Repositories/obj/
+/Fitness.Backend.Services/obj/
+/Fitness.Backend.WebApi/obj/
+/.vs/

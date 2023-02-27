@@ -899,6 +899,7 @@
       },
       "Fitness.Backend.Application.DataContracts/1.0.0": {
         "dependencies": {
+          "Microsoft.EntityFrameworkCore.Abstractions": "7.0.3",
           "Microsoft.Extensions.Identity.Stores": "7.0.3"
         },
         "runtime": {

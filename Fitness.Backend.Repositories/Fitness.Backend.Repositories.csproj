@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fitness.Backend.Contracts\Fitness.Backend.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Fitness.Backend.Domain\Fitness.Backend.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -54,19 +54,8 @@ namespace Fitness.Backend.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] LoginUser user)
         {
-            var result = await userManager.CreateAsync(new ApplicationUser { UserName = user.Name, Email = "besebarni@gmail.com", EmailConfirmed = true }, user.Password);
-
-                //create the roles and seed them to the database: Question 1
-                await roleManager.CreateAsync(new IdentityRole("Client"));
-                await roleManager.CreateAsync(new IdentityRole("Admin"));
-                await roleManager.CreateAsync(new IdentityRole("Instructor"));
-
-            await userManager.Users.ForEachAsync((u) =>
-            {
-                userManager.AddToRoleAsync(u, "Client");
-                userManager.SetEmailAsync(u, "besebarni@gmail.com");
-            });
-            return Ok();
+            var result = await userManager.CreateAsync(new ApplicationUser { UserName = user.Name, Email = user.Email, EmailConfirmed = true }, user.Password);
+            return Ok(result);
         }
 
         [HttpGet]

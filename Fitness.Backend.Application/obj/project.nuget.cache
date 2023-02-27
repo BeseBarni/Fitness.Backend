@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "DjsyePlRZ4YOaJjxNxf8raxtp5LWJrkouD2OPpPfA2IfXMLulk/P9Kbg4Q6TEoODIPKjd39dhdQ3v6xO+lRmXQ==",
+  "dgSpecHash": "tAy1FLKs/38/YQAmwESxBtBkmHArMQNKt5G5beswo9f38NriLCvAVH5bs73FgVxcds+fWTSONMpzRHTkzDja2g==",
   "success": true,
   "projectFilePath": "C:\\Users\\Barni\\source\\repos\\Fitness.Backend\\Fitness.Backend.Application\\Fitness.Backend.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Barni\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\7.0.3\\microsoft.aspnetcore.cryptography.internal.7.0.3.nupkg.sha512",
     "C:\\Users\\Barni\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\7.0.3\\microsoft.aspnetcore.cryptography.keyderivation.7.0.3.nupkg.sha512",
     "C:\\Users\\Barni\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\Barni\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.3\\microsoft.entityframeworkcore.abstractions.7.0.3.nupkg.sha512",
     "C:\\Users\\Barni\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\Barni\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
     "C:\\Users\\Barni\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
