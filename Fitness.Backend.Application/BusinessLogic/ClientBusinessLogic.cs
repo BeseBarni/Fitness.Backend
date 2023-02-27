@@ -23,18 +23,7 @@ namespace Fitness.Backend.Application.BusinessLogic
         {
             return await lessonRepository.DeleteLessonAsync(lessonId);
         }
-
-
-
-
-
-
-
-
-
         
-
-
         public async Task<IEnumerable<Lesson>> GetLessonsAsync(int? cityId, int? sportId, string? instructorId, Day? day)
         {
             return await lessonRepository.GetLessonsAsync(cityId, sportId, instructorId, day);
@@ -48,6 +37,14 @@ namespace Fitness.Backend.Application.BusinessLogic
         public async Task<DbResult> UpdateLessonAsync(Lesson lesson)
         {
             return await lessonRepository.UpdateLessonAsync(lesson);
+        }
+        public async Task<DbResult> CreateSportAsync(Sport sport)
+        {
+            return await lessonRepository.CreateSportAsync(sport);
+        }
+        public async Task<DbResult> CreateLessonAsync(Lesson lesson)
+        {
+            return await lessonRepository.CreateLessonAsync(lesson);
         }
     }
 }
