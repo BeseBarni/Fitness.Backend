@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\Fitness.Backend.WebApi.props" />
-</Project>
