@@ -23,39 +23,10 @@ namespace Fitness.Backend.Application.BusinessLogic
         {
             return await lessonRepository.DeleteLessonAsync(lessonId);
         }
-
-        public async Task<Lesson?> GetLessonAsync(int lessonId)
+        
+        public async Task<IEnumerable<Lesson>> GetLessonsAsync(int? cityId, int? sportId, string? instructorId, Day? day)
         {
-            return await lessonRepository.GetLessonAsync(lessonId);
-        }
-
-        public async Task<IEnumerable<Lesson>> GetLessonsAsync(string instructorId)
-        {
-            return await lessonRepository.GetLessonsAsync(instructorId);
-        }
-
-        public async Task<IEnumerable<Lesson>> GetLessonsAsync(int cityId)
-        {
-            return await lessonRepository.GetLessonsAsync(cityId);
-
-        }
-
-        public async Task<IEnumerable<Lesson>> GetLessonsAsync(Sport sport)
-        {
-            return await lessonRepository.GetLessonsAsync(sport);
-
-        }
-
-        public async Task<IEnumerable<Lesson>> GetLessonsAsync(string instructorId, int sportId)
-        {
-            return await lessonRepository.GetLessonsAsync(instructorId, sportId);
-
-        }
-
-        public async Task<IEnumerable<Lesson>> GetLessonsAsync(int cityId, int sportId)
-        {
-            return await lessonRepository.GetLessonsAsync(cityId, sportId);
-
+            return await lessonRepository.GetLessonsAsync(cityId, sportId, instructorId, day);
         }
 
         public async Task<IEnumerable<Sport>> GetSportsAsync()
@@ -66,6 +37,14 @@ namespace Fitness.Backend.Application.BusinessLogic
         public async Task<DbResult> UpdateLessonAsync(Lesson lesson)
         {
             return await lessonRepository.UpdateLessonAsync(lesson);
+        }
+        public async Task<DbResult> CreateSportAsync(Sport sport)
+        {
+            return await lessonRepository.CreateSportAsync(sport);
+        }
+        public async Task<DbResult> CreateLessonAsync(Lesson lesson)
+        {
+            return await lessonRepository.CreateLessonAsync(lesson);
         }
     }
 }

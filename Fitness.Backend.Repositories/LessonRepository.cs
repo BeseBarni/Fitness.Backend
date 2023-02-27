@@ -23,10 +23,15 @@ namespace Fitness.Backend.Repositories
             this.context = context;
         }
 
-        public async Task<Lesson?> GetLessonAsync(int lessonId)
+        public async Task<IEnumerable<Lesson>> GetLessonsAsync(int? cityId, int? sportId, string? instructorId, Day? day)
         {
-            return await context.Lessons.Where(p => p.Id == lessonId).FirstOrDefaultAsync();
+            return await context.Lessons.Where(p => (cityId == null || p.CityId == cityId) && 
+            (sportId == null || p.Sport.Id == sportId) &&
+            (instructorId == null || p.InstructorId == instructorId) &&
+            (day == null || p.Day == day)).ToListAsync();
         }
+
+
 
         public async Task<DbResult> DeleteLessonAsync(int lessonId)
         {
@@ -35,6 +40,25 @@ namespace Fitness.Backend.Repositories
                 return DbResult.NOT_FOUND;
 
             context.Lessons.Remove(lesson);
+            try
+            {
+                await context.SaveChangesAsync();
+                return DbResult.DELETED;
+            }
+            catch (Exception)
+            {
+
+                return DbResult.FAILED;
+            }
+        }
+
+        public async Task<DbResult> DeleteSportAsync(int sportId)
+        {
+            var sport = await context.Sports.FirstOrDefaultAsync(p => p.Id == sportId);
+            if (sport == null)
+                return DbResult.NOT_FOUND;
+
+            context.Lessons.Remove(sport);
             try
             {
                 await context.SaveChangesAsync();
@@ -68,37 +92,63 @@ namespace Fitness.Backend.Repositories
             }
         }
 
-        public async Task<IEnumerable<Lesson>> GetLessonsAsync(string instructorId)
+        public async Task<DbResult> UpdateSportAsync(Sport sport)
         {
-            return await context.Lessons.Where(p => p.InstructorId == instructorId).ToListAsync();
+            var entity = await context.Sports.FirstOrDefaultAsync(p => p.Id == sport.Id);
+
+            if (entity == null)
+                return DbResult.NOT_FOUND;
+
+            context.Sports.Update(entity);
+
+            try
+            {
+                await context.SaveChangesAsync();
+                return DbResult.UPDATED;
+            }
+            catch (Exception)
+            {
+
+                return DbResult.FAILED;
+            }
         }
+
 
         public async Task<IEnumerable<Sport>> GetSportsAsync()
         {
             return await context.Sports.ToListAsync();
         }
 
-        public async Task<IEnumerable<Lesson>> GetLessonsAsync(int cityId)
+        public async Task<DbResult> CreateSportAsync(Sport sport)
         {
-            return await context.Lessons.Where(p => p.CityId == cityId).ToListAsync();
+            context.Sports.Add(sport);
+            try
+            {
+                await context.SaveChangesAsync();
+                return DbResult.CREATED;
+            }
+            catch (Exception)
+            {
+                return DbResult.FAILED;
+            }
         }
 
-        public async Task<IEnumerable<Lesson>> GetLessonsAsync(Sport sport)
+        public async Task<DbResult> CreateLessonAsync(Lesson lesson)
         {
-            return await context.Lessons.Where(p => p.Sport.Id == sport.Id).ToListAsync();
-
+            context.Lessons.Add(lesson);
+            try
+            {
+                await context.SaveChangesAsync();
+                return DbResult.CREATED;
+            }
+            catch (Exception)
+            {
+                return DbResult.FAILED;
+            }
         }
 
-        public async Task<IEnumerable<Lesson>> GetLessonsAsync(string instructorId, int sportId)
-        {
-            return await context.Lessons.Where(p => p.Sport.Id == sportId && p.InstructorId == instructorId).ToListAsync();
-
-        }
-
-        public async Task<IEnumerable<Lesson>> GetLessonsAsync(int cityId, int sportId)
-        {
-            return await context.Lessons.Where(p => p.Sport.Id == sportId && p.CityId == cityId).ToListAsync();
-
+    }
+}
         }
 
         public async Task<DbResult> CreateUser(User user)
