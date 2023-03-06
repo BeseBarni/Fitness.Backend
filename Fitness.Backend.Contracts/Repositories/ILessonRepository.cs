@@ -1,5 +1,5 @@
 ﻿using Fitness.Backend.Application.DataContracts.Enums;
-using Fitness.Backend.Application.DataContracts.Models;
+using Fitness.Backend.Application.DataContracts.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace Fitness.Backend.Application.Contracts.Repositories
         public Task<DbResult> UpdateLessonAsync(Lesson lesson);
         public Task<DbResult> UpdateSportAsync(Sport sport);
         public Task<IEnumerable<Sport>> GetSportsAsync();
-        public Task<IEnumerable<Lesson>> GetLessonsAsync(int? cityId, int? sportId, string? instructorId, Day? day);
+        public Task<IEnumerable<Lesson>> GetLessonsAsync(string? instructorId, string? userId, int? cityId, int? sportId, Day? day);
         public Task<DbResult> CreateSportAsync(Sport sport);
         public Task<DbResult> CreateLessonAsync(Lesson lesson);
     }

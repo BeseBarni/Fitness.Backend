@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Fitness.Backend.Domain.Migrations.AppDb
 {
     /// <inheritdoc />
-    public partial class LessonUserManyToMany : Migration
+    public partial class cascadeNoAction : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,8 +19,8 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PostalCode = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostalCode = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -28,17 +28,16 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "Instructors",
+                name: "Sports",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Instructors", x => x.Id);
+                    table.PrimaryKey("PK_Sports", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -46,7 +45,7 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CityId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -60,22 +59,46 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sports",
+                name: "Instructors",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    InstructorId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sports", x => x.Id);
+                    table.PrimaryKey("PK_Instructors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Sports_Instructors_InstructorId",
-                        column: x => x.InstructorId,
-                        principalTable: "Instructors",
+                        name: "FK_Instructors_Clients_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Clients",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InstructorSport",
+                columns: table => new
+                {
+                    InstructorsId = table.Column<int>(type: "int", nullable: false),
+                    SportsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InstructorSport", x => new { x.InstructorsId, x.SportsId });
+                    table.ForeignKey(
+                        name: "FK_InstructorSport_Instructors_InstructorsId",
+                        column: x => x.InstructorsId,
+                        principalTable: "Instructors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_InstructorSport_Sports_SportsId",
+                        column: x => x.SportsId,
+                        principalTable: "Sports",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,10 +109,10 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CityId = table.Column<int>(type: "int", nullable: false),
+                    CityId = table.Column<int>(type: "int", nullable: true),
                     MaxNumber = table.Column<int>(type: "int", nullable: false),
-                    SportId = table.Column<int>(type: "int", nullable: false),
-                    InstructorId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SportId = table.Column<int>(type: "int", nullable: true),
+                    InstructorId = table.Column<int>(type: "int", nullable: true),
                     Day = table.Column<int>(type: "int", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -98,11 +121,20 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                 {
                     table.PrimaryKey("PK_Lessons", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Lessons_Cities_CityId",
+                        column: x => x.CityId,
+                        principalTable: "Cities",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Lessons_Instructors_InstructorId",
+                        column: x => x.InstructorId,
+                        principalTable: "Instructors",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Lessons_Sports_SportId",
                         column: x => x.SportId,
                         principalTable: "Sports",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -162,6 +194,26 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Instructors_UserId",
+                table: "Instructors",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InstructorSport_SportsId",
+                table: "InstructorSport",
+                column: "SportsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Lessons_CityId",
+                table: "Lessons",
+                column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Lessons_InstructorId",
+                table: "Lessons",
+                column: "InstructorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Lessons_SportId",
                 table: "Lessons",
                 column: "SportId");
@@ -170,33 +222,31 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                 name: "IX_LessonUser_UsersId",
                 table: "LessonUser",
                 column: "UsersId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sports_InstructorId",
-                table: "Sports",
-                column: "InstructorId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "LessonUser");
+                name: "InstructorSport");
 
             migrationBuilder.DropTable(
-                name: "Clients");
+                name: "LessonUser");
 
             migrationBuilder.DropTable(
                 name: "Lessons");
 
             migrationBuilder.DropTable(
-                name: "Cities");
+                name: "Instructors");
 
             migrationBuilder.DropTable(
                 name: "Sports");
 
             migrationBuilder.DropTable(
-                name: "Instructors");
+                name: "Clients");
+
+            migrationBuilder.DropTable(
+                name: "Cities");
         }
     }
 }

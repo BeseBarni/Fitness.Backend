@@ -1,7 +1,7 @@
 ﻿using Fitness.Backend.Application.Contracts.BusinessLogic;
 using Fitness.Backend.Application.Contracts.Repositories;
 using Fitness.Backend.Application.DataContracts.Enums;
-using Fitness.Backend.Application.DataContracts.Models;
+using Fitness.Backend.Application.DataContracts.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +24,9 @@ namespace Fitness.Backend.Application.BusinessLogic
             return await lessonRepository.DeleteLessonAsync(lessonId);
         }
         
-        public async Task<IEnumerable<Lesson>> GetLessonsAsync(int? cityId, int? sportId, string? instructorId, Day? day)
+        public async Task<IEnumerable<Lesson>> GetLessonsAsync(string? instructorId,string? clientId, int? cityId, int? sportId, Day? day)
         {
-            return await lessonRepository.GetLessonsAsync(cityId, sportId, instructorId, day);
+            return await lessonRepository.GetLessonsAsync(instructorId,clientId,cityId,sportId,day);
         }
 
         public async Task<IEnumerable<Sport>> GetSportsAsync()
@@ -45,6 +45,16 @@ namespace Fitness.Backend.Application.BusinessLogic
         public async Task<DbResult> CreateLessonAsync(Lesson lesson)
         {
             return await lessonRepository.CreateLessonAsync(lesson);
+        }
+
+        public async Task<DbResult> DeleteSportAsync(int sportId)
+        {
+            return await lessonRepository.DeleteSportAsync(sportId);
+        }
+
+        public async Task<DbResult> UpdateSportAsync(Sport sport)
+        {
+            return await lessonRepository.UpdateSportAsync(sport);
         }
     }
 }

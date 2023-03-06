@@ -1,4 +1,5 @@
 ﻿using Fitness.Backend.Application.DataContracts.Models;
+using Fitness.Backend.Application.DataContracts.Models.Entity;
 using Fitness.Backend.Domain.DbContexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

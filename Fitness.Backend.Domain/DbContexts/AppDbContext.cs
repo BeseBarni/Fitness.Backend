@@ -1,4 +1,4 @@
-﻿using Fitness.Backend.Application.DataContracts.Models;
+﻿using Fitness.Backend.Application.DataContracts.Models.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,6 +23,7 @@ namespace Fitness.Backend.Domain.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             base.OnModelCreating(modelBuilder);
             var cities = new List<City>
             {

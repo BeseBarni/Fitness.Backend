@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fitness.Backend.Domain.Migrations.AppDb
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230227173038_LessonUserManyToMany")]
-    partial class LessonUserManyToMany
+    [Migration("20230228092507_cascadeNoAction")]
+    partial class cascadeNoAction
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,10 +34,9 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PostalCode")
+                    b.Property<int?>("PostalCode")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -176,14 +175,14 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Instructors");
                 });
@@ -196,7 +195,7 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CityId")
+                    b.Property<int?>("CityId")
                         .HasColumnType("int");
 
                     b.Property<int>("Day")
@@ -205,9 +204,8 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("InstructorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("InstructorId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -220,13 +218,17 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SportId")
+                    b.Property<int?>("SportId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("InstructorId");
 
                     b.HasIndex("SportId");
 
@@ -241,16 +243,10 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("InstructorId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InstructorId");
 
                     b.ToTable("Sports");
                 });
@@ -264,7 +260,6 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -272,6 +267,21 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                     b.HasIndex("CityId");
 
                     b.ToTable("Clients");
+                });
+
+            modelBuilder.Entity("InstructorSport", b =>
+                {
+                    b.Property<int>("InstructorsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SportsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("InstructorsId", "SportsId");
+
+                    b.HasIndex("SportsId");
+
+                    b.ToTable("InstructorSport");
                 });
 
             modelBuilder.Entity("LessonUser", b =>
@@ -289,22 +299,35 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                     b.ToTable("LessonUser");
                 });
 
+            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Models.Instructor", b =>
+                {
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Models.Lesson", b =>
                 {
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId");
+
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.Instructor", "Instructor")
+                        .WithMany("Lessons")
+                        .HasForeignKey("InstructorId");
+
                     b.HasOne("Fitness.Backend.Application.DataContracts.Models.Sport", "Sport")
                         .WithMany()
                         .HasForeignKey("SportId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("City");
+
+                    b.Navigation("Instructor");
 
                     b.Navigation("Sport");
-                });
-
-            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Models.Sport", b =>
-                {
-                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.Instructor", null)
-                        .WithMany("Sports")
-                        .HasForeignKey("InstructorId");
                 });
 
             modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Models.User", b =>
@@ -314,6 +337,21 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                         .HasForeignKey("CityId");
 
                     b.Navigation("City");
+                });
+
+            modelBuilder.Entity("InstructorSport", b =>
+                {
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.Instructor", null)
+                        .WithMany()
+                        .HasForeignKey("InstructorsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.Sport", null)
+                        .WithMany()
+                        .HasForeignKey("SportsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LessonUser", b =>
@@ -333,7 +371,7 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
 
             modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Models.Instructor", b =>
                 {
-                    b.Navigation("Sports");
+                    b.Navigation("Lessons");
                 });
 #pragma warning restore 612, 618
         }

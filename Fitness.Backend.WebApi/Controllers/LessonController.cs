@@ -1,6 +1,6 @@
 ﻿using Fitness.Backend.Application.Contracts.BusinessLogic;
 using Fitness.Backend.Application.DataContracts.Enums;
-using Fitness.Backend.Application.DataContracts.Models;
+using Fitness.Backend.Application.DataContracts.Models.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,85 +21,32 @@ namespace Fitness.Backend.WebApi.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-        public async Task<ActionResult<IEnumerable<Lesson>>> Get(string? instructorId, int? cityId, int? sportId)
+        public async Task<ActionResult<IEnumerable<Lesson>>> Get(string? instructorId,string? clientId, int? cityId, int? sportId, Day? day)
         {
-            var instructor = instructorId != null;
-            var city = cityId != null;
-            var sport = sportId != null;
-            IEnumerable<Lesson> result = new List<Lesson>();
-            if (!instructor && !city && !sport)
-                return BadRequest("One query parameter should be set");
-            if (instructor && city && sport || instructor && !city && sport || instructor && city && !sport)
-                return BadRequest("Instructor parameter should be used by itself");
 
-            if (instructor && !city && !sport)
-                result = await clientBl.GetLessonsAsync(instructorId);
-
-            if (!instructor && city && !sport)
-                result = await clientBl.GetLessonsAsync((int)cityId);
-
-            if (!instructor && !city && sport)
-                result = await clientBl.GetLessonsAsync(new Sport { Id = (int)sportId});
-
-            if (!instructor && city && sport)
-                result = await clientBl.GetLessonsAsync((int)cityId, (int)sportId);
-
+            var result = await clientBl.GetLessonsAsync(instructorId,clientId, cityId, sportId, day);
 
             if (result.Count() == 0)
                 return NotFound();
 
             return Ok(result);
         }
-        //[HttpGet]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public async Task<ActionResult<IEnumerable<Lesson>>> Get(int cityId)
-        //{
-        //    var result = await clientBl.GetLessonsAsync(cityId);
 
-        //    if (result.Count() == 0)
-        //        return NotFound();
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> Post([FromBody] Lesson lesson)
+        {
+            var result = await clientBl.CreateLessonAsync(lesson);
 
-        //    return Ok(result);
-        //}
-        //[HttpGet]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public async Task<ActionResult<IEnumerable<Lesson>>> Get(Sport sport)
-        //{
-        //    var result = await clientBl.GetLessonsAsync(sport.Id);
+            if (result == DbResult.CREATED) return NoContent();
 
-        //    if (result.Count() == 0)
-        //        return NotFound();
+            if (result == DbResult.NOT_FOUND) return NotFound();
 
-        ////    return Ok(result);
-        ////}
-        //[HttpGet]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public async Task<ActionResult<IEnumerable<Lesson>>> Get(int cityId, int sportId)
-        //{
-        //    var result = await clientBl.GetLessonsAsync(cityId, sportId);
+            return StatusCode(500);
+        }
 
-        //    if (result.Count() == 0)
-        //        return NotFound();
-
-        //    return Ok(result);
-        //}
-        //[HttpGet]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public async Task<ActionResult<IEnumerable<Lesson>>> Get(string instructorId, int sportId)
-        //{
-        //    var result = await clientBl.GetLessonsAsync(instructorId, sportId);
-
-        //    if (result.Count() == 0)
-        //        return NotFound();
-
-        //    return Ok(result);
-        //}
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

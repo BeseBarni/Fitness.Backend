@@ -1,6 +1,6 @@
 ﻿using Fitness.Backend.Application.Contracts.Repositories;
 using Fitness.Backend.Application.DataContracts.Enums;
-using Fitness.Backend.Application.DataContracts.Models;
+using Fitness.Backend.Application.DataContracts.Models.Entity;
 using Fitness.Backend.Domain.DbContexts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,12 +23,15 @@ namespace Fitness.Backend.Repositories
             this.context = context;
         }
 
-        public async Task<IEnumerable<Lesson>> GetLessonsAsync(int? cityId, int? sportId, string? instructorId, Day? day)
+        public async Task<IEnumerable<Lesson>> GetLessonsAsync(string? instructorId,string? userId, int? cityId, int? sportId, Day? day)
         {
-            return await context.Lessons.Where(p => (cityId == null || p.CityId == cityId) && 
+
+            
+
+            return await context.Lessons.Where(p => (cityId == null || p.City.Id == cityId) && 
             (sportId == null || p.Sport.Id == sportId) &&
-            (instructorId == null || p.InstructorId == instructorId) &&
-            (day == null || p.Day == day)).ToListAsync();
+            (instructorId == null || p.Instructor.User.Id == instructorId) &&
+            (day == null || p.Day == day) && (userId == null || p.LessonUsers.Select(p => p.UserId).Contains(userId))).ToListAsync();
         }
 
 
@@ -58,7 +61,7 @@ namespace Fitness.Backend.Repositories
             if (sport == null)
                 return DbResult.NOT_FOUND;
 
-            context.Lessons.Remove(sport);
+            context.Sports.Remove(sport);
             try
             {
                 await context.SaveChangesAsync();
@@ -78,7 +81,7 @@ namespace Fitness.Backend.Repositories
             if(entity == null)
                 return DbResult.NOT_FOUND;
 
-            context.Lessons.Update(entity);
+            context.Lessons.Update(lesson);
 
             try
             {
@@ -99,7 +102,7 @@ namespace Fitness.Backend.Repositories
             if (entity == null)
                 return DbResult.NOT_FOUND;
 
-            context.Sports.Update(entity);
+            entity.Name = sport.Name;
 
             try
             {
@@ -147,9 +150,9 @@ namespace Fitness.Backend.Repositories
             }
         }
 
-    }
-}
-        }
+    
+
+        
 
         public async Task<DbResult> CreateUser(User user)
         {
@@ -173,9 +176,9 @@ namespace Fitness.Backend.Repositories
 
         public async Task<DbResult> CreateInstructor(Instructor instructor)
         {
-            var client = await context.Clients.FirstOrDefaultAsync(p => p.Id == instructor.UserId);
+            var client = await context.Clients.FirstOrDefaultAsync(p => p.Id == instructor.User.Id);
 
-            var entity = await context.Instructors.FirstOrDefaultAsync(p => p.UserId == instructor.UserId);
+            var entity = await context.Instructors.FirstOrDefaultAsync(p => p.User.Id == instructor.User.Id);
 
             if (entity == null || client == null)
                 return DbResult.NOT_FOUND;
@@ -200,8 +203,7 @@ namespace Fitness.Backend.Repositories
 
             if (entity == null || lesson == null)
                 return DbResult.NOT_FOUND;
-
-            entity.Lessons.Add(lesson);          
+          
 
             try
             {
@@ -217,7 +219,13 @@ namespace Fitness.Backend.Repositories
         public async Task<IEnumerable<Lesson>> GetClientLessons(string clientId)
         {
             var entity = await context.Clients.FirstOrDefaultAsync(p => p.Id == clientId);
-            return entity.Lessons;
+            return new List<Lesson>();
+        }
+
+        public async Task<IEnumerable<City>> GetCitiesAsync()
+        {
+            var result = await context.Cities.ToListAsync();
+            return result;
         }
 
     }

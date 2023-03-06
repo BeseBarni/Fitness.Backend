@@ -30,7 +30,7 @@ namespace Fitness.Backend.Services.Auth
                 _configuration["Jwt:Issuer"],
                 _configuration["Jwt:Audience"],
                 authClaims,
-                expires: DateTime.UtcNow.AddMinutes(1),
+                expires: DateTime.UtcNow.AddMinutes(30),
                 signingCredentials: signIn);
 
             return token;
