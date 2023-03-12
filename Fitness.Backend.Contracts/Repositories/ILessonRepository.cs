@@ -8,15 +8,8 @@ using System.Threading.Tasks;
 
 namespace Fitness.Backend.Application.Contracts.Repositories
 {
-    public interface ILessonRepository
+    public interface ILessonRepository : IBaseRepository<Lesson>
     {
-        public Task<DbResult> DeleteLessonAsync(int lessonId);
-        public Task<DbResult> DeleteSportAsync(int sportId);
-        public Task<DbResult> UpdateLessonAsync(Lesson lesson);
-        public Task<DbResult> UpdateSportAsync(Sport sport);
-        public Task<IEnumerable<Sport>> GetSportsAsync();
-        public Task<IEnumerable<Lesson>> GetLessonsAsync(string? instructorId, string? userId, int? cityId, int? sportId, Day? day);
-        public Task<DbResult> CreateSportAsync(Sport sport);
-        public Task<DbResult> CreateLessonAsync(Lesson lesson);
+        Task<IEnumerable<User>> GetLessonUsers(string lessonId);
     }
 }

@@ -1,0 +1,40 @@
+version: '3.4'
+
+networks:
+  dev:
+    driver: bridge
+
+services:
+  fitness.backend.webapi:
+    image: ${DOCKER_REGISTRY-}fitnessbackendwebapi
+    build:
+      context: .
+      dockerfile: Fitness.Backend.WebApi/Dockerfile
+    depends_on:
+      - "app-db"
+    container_name: fitness-backend
+    ports:
+      - "8001:90"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=app-db;User Id=fitness; Password=fitness;Port=5432;Database=Fitness;
+      - ASPNETCORE_URLS=http://+:90
+    networks:
+      - dev
+
+  app-db:
+    image: postgres:latest
+    container_name: app_db
+    environment:
+      - POSTGRES_USER=fitness
+      - POSTGRES_PASSWORD=fitness
+      - POSTGRES_DB=Fitness
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - app_data:/var/lib/postgresql/data
+    networks:
+      - dev
+
+volumes:
+  app_data:

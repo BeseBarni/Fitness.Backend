@@ -15,18 +15,24 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 // Add services to the container.
 
-builder.Services.AddScoped<IClientBusinessLogic, ClientBusinessLogic>();
-builder.Services.AddScoped<IAdminBusinessLogic, AdminBusinessLogic>();
-builder.Services.AddScoped<IInstructorBusinessLogic, InstructorBusinessLogic>();
+builder.Services.AddScoped<IAuthBusinessLogic, AuthBusinessLogic>();
+
 builder.Services.AddScoped<ILessonRepository, LessonRepository>();
+builder.Services.AddScoped<ISportRepository, SportRepository>();
+builder.Services.AddScoped<IInstructorRepository, InstructorRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 builder.Services.AddScoped<IAuthTokenService, AuthTokenService>();
+
 builder.Services.AddTransient<AuthSeeder>();
+builder.Services.AddTransient<LessonSeeder>();
 builder.Services.AddTransient<AuthDbContext>();
 builder.Services.AddCors();
 builder.Services.AddControllers();
@@ -58,15 +64,15 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
-
+builder.Services.AddAutoMapper(typeof(Program));
 
 //Itt át kell írni a connection string-et
-var connectionString = builder.Configuration.GetConnectionString("AuthServer") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<AuthDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseNpgsql(connectionString));
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseNpgsql(connectionString));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AuthDbContext>();
@@ -89,12 +95,7 @@ builder.Services.AddAuthentication(options =>
                 ValidAudience = builder.Configuration["Jwt:Audience"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
             };
-        })
-    .AddGoogle(googleOptions =>
-{
-    googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
-    googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
-});
+        });
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -106,16 +107,14 @@ builder.Services.AddHostedService<DatabaseSeederService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 app.UseCors(options =>
 {
     options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
 });
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -1,5 +1,7 @@
 ﻿using Fitness.Backend.Application.Contracts.Repositories;
 using Fitness.Backend.Application.DataContracts.Enums;
+using Fitness.Backend.Application.DataContracts.Exceptions;
+using Fitness.Backend.Application.DataContracts.Extensions;
 using Fitness.Backend.Application.DataContracts.Models.Entity;
 using Fitness.Backend.Domain.DbContexts;
 using Microsoft.AspNetCore.Mvc;
@@ -8,225 +10,87 @@ using Microsoft.Extensions.Logging.EventSource;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Fitness.Backend.Repositories
 {
-    public class LessonRepository : ILessonRepository
+    public class LessonRepository : BaseRepository, ILessonRepository
     {
-        //todo EF core db, db context implementation
-        private readonly AppDbContext context;
-
-        public LessonRepository(AppDbContext context)
+        public LessonRepository(AppDbContext context) : base(context)
         {
-            this.context = context;
+        }
+        public async Task<IEnumerable<User>> GetLessonUsers(string lessonId)
+        {
+            var result = await context.Lessons.FirstOrDefaultAsync(p => p.Id == lessonId);
+
+            context.Entry(result)
+                .Collection(b => b.Users)
+                .Load();
+
+            return result.Users;
         }
 
-        public async Task<IEnumerable<Lesson>> GetLessonsAsync(string? instructorId,string? userId, int? cityId, int? sportId, Day? day)
+        public async Task<IEnumerable<Lesson>> GetAll(Lesson? parameters)
         {
-
-            
-
-            return await context.Lessons.Where(p => (cityId == null || p.City.Id == cityId) && 
-            (sportId == null || p.Sport.Id == sportId) &&
-            (instructorId == null || p.Instructor.User.Id == instructorId) &&
-            (day == null || p.Day == day) && (userId == null || p.LessonUsers.Select(p => p.UserId).Contains(userId))).ToListAsync();
+            return await context.Lessons.Where(p =>
+                (parameters.SportId == null || p.SportId == parameters.SportId) &&
+                (parameters.InstructorId == null || p.InstructorId == parameters.InstructorId) &&
+                (parameters.Day == null || p.Day == parameters.Day)).DelFilter<Lesson>().ToListAsync();
         }
 
-
-
-        public async Task<DbResult> DeleteLessonAsync(int lessonId)
+        public async Task Delete(string id)
         {
-            var lesson = await context.Lessons.FirstOrDefaultAsync(p => p.Id == lessonId);
+            var lesson = await context.Lessons.DelFilter<Lesson>().FirstOrDefaultAsync(p => p.Id == id);
             if (lesson == null)
-                return DbResult.NOT_FOUND;
+                throw new ResourceNotFoundException();
 
-            context.Lessons.Remove(lesson);
-            try
-            {
-                await context.SaveChangesAsync();
-                return DbResult.DELETED;
-            }
-            catch (Exception)
-            {
-
-                return DbResult.FAILED;
-            }
+            lesson.Del = 1;
+            await context.SaveChangesAsync();
         }
 
-        public async Task<DbResult> DeleteSportAsync(int sportId)
+        public async Task Update(Lesson parameters)
         {
-            var sport = await context.Sports.FirstOrDefaultAsync(p => p.Id == sportId);
-            if (sport == null)
-                return DbResult.NOT_FOUND;
+            var lesson = await context.Lessons.FirstOrDefaultAsync(p => p.Id == parameters.Id);
+            if (lesson == null)
+                throw new ResourceNotFoundException();
 
-            context.Sports.Remove(sport);
-            try
+            lesson.Name = parameters.Name ?? lesson.Name;
+            lesson.Location = parameters.Location ?? lesson.Location;
+            lesson.Day = parameters.Day ?? lesson.Day;
+            lesson.MaxNumber = parameters.MaxNumber ?? lesson.MaxNumber;
+            if(parameters.InstructorId != null)
             {
-                await context.SaveChangesAsync();
-                return DbResult.DELETED;
+                var instructor = await context.Instructors.FirstOrDefaultAsync(p => p.Id == parameters.InstructorId);
+                lesson.Instructor = instructor;
             }
-            catch (Exception)
+            if (parameters.SportId != null)
             {
+                var sport = await context.Sports.FirstOrDefaultAsync(p => p.Id == parameters.SportId);
+                lesson.Sport = sport;
+            }
 
-                return DbResult.FAILED;
-            }
+            await context.SaveChangesAsync();
         }
 
-        public async Task<DbResult> UpdateLessonAsync(Lesson lesson)
+        public async Task<Lesson> GetOne(string id)
         {
-            var entity = await context.Lessons.FirstOrDefaultAsync(p => p.Id == lesson.Id);
+            var result = await context.Lessons.FirstOrDefaultAsync(p => p.Id == id);
+            if(result == null)
+                throw new ResourceNotFoundException();
 
-            if(entity == null)
-                return DbResult.NOT_FOUND;
-
-            context.Lessons.Update(lesson);
-
-            try
-            {
-                await context.SaveChangesAsync();
-                return DbResult.UPDATED;
-            }
-            catch (Exception)
-            {
-
-                return DbResult.FAILED;
-            }
-        }
-
-        public async Task<DbResult> UpdateSportAsync(Sport sport)
-        {
-            var entity = await context.Sports.FirstOrDefaultAsync(p => p.Id == sport.Id);
-
-            if (entity == null)
-                return DbResult.NOT_FOUND;
-
-            entity.Name = sport.Name;
-
-            try
-            {
-                await context.SaveChangesAsync();
-                return DbResult.UPDATED;
-            }
-            catch (Exception)
-            {
-
-                return DbResult.FAILED;
-            }
-        }
-
-
-        public async Task<IEnumerable<Sport>> GetSportsAsync()
-        {
-            return await context.Sports.ToListAsync();
-        }
-
-        public async Task<DbResult> CreateSportAsync(Sport sport)
-        {
-            context.Sports.Add(sport);
-            try
-            {
-                await context.SaveChangesAsync();
-                return DbResult.CREATED;
-            }
-            catch (Exception)
-            {
-                return DbResult.FAILED;
-            }
-        }
-
-        public async Task<DbResult> CreateLessonAsync(Lesson lesson)
-        {
-            context.Lessons.Add(lesson);
-            try
-            {
-                await context.SaveChangesAsync();
-                return DbResult.CREATED;
-            }
-            catch (Exception)
-            {
-                return DbResult.FAILED;
-            }
-        }
-
-    
-
-        
-
-        public async Task<DbResult> CreateUser(User user)
-        {
-            var entity = await context.Clients.FirstOrDefaultAsync(p => p.Id == user.Id);
-
-            if (entity == null)
-                return DbResult.NOT_FOUND;
-
-            context.Clients.Add(user);
-
-            try
-            {
-                await context.SaveChangesAsync();
-                return DbResult.CREATED;
-            }
-            catch (Exception)
-            {
-                return DbResult.FAILED;
-            }
-        }
-
-        public async Task<DbResult> CreateInstructor(Instructor instructor)
-        {
-            var client = await context.Clients.FirstOrDefaultAsync(p => p.Id == instructor.User.Id);
-
-            var entity = await context.Instructors.FirstOrDefaultAsync(p => p.User.Id == instructor.User.Id);
-
-            if (entity == null || client == null)
-                return DbResult.NOT_FOUND;
-
-            context.Instructors.Add(instructor);
-
-            try
-            {
-                await context.SaveChangesAsync();
-                return DbResult.CREATED;
-            }
-            catch (Exception)
-            {
-                return DbResult.FAILED;
-            }
-        }
-
-        public async Task<DbResult> AddLessonToClient(int lessonId, string clientId)
-        {
-            var entity = await context.Clients.FirstOrDefaultAsync(p => p.Id == clientId);
-            var lesson = await context.Lessons.FirstOrDefaultAsync(p => p.Id == lessonId);
-
-            if (entity == null || lesson == null)
-                return DbResult.NOT_FOUND;
-          
-
-            try
-            {
-                await context.SaveChangesAsync();
-                return DbResult.CREATED;
-            }
-            catch (Exception)
-            {
-                return DbResult.FAILED;
-            }
-        }
-
-        public async Task<IEnumerable<Lesson>> GetClientLessons(string clientId)
-        {
-            var entity = await context.Clients.FirstOrDefaultAsync(p => p.Id == clientId);
-            return new List<Lesson>();
-        }
-
-        public async Task<IEnumerable<City>> GetCitiesAsync()
-        {
-            var result = await context.Cities.ToListAsync();
             return result;
         }
 
+        public async Task Add(Lesson parameters)
+        {
+            var instructor = await context.Instructors.FirstOrDefaultAsync(p => p.Id == parameters.InstructorId);
+            var sport = await context.Sports.FirstOrDefaultAsync(p => p.Id == parameters.SportId);
+            parameters.Instructor = instructor;
+            parameters.Sport = sport;
+            context.Lessons.Add(parameters);
+            await context.SaveChangesAsync();
+        }
     }
 }

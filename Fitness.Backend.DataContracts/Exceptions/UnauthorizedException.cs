@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fitness.Backend.Application.Contracts.BusinessLogic
+namespace Fitness.Backend.Application.DataContracts.Exceptions
 {
-    public interface IInstructorBusinessLogic
+    public class UnauthorizedException : Exception
     {
     }
 }

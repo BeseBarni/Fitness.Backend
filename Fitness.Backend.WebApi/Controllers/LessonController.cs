@@ -1,6 +1,9 @@
-﻿using Fitness.Backend.Application.Contracts.BusinessLogic;
+﻿using AutoMapper;
+using Fitness.Backend.Application.Contracts.BusinessLogic;
+using Fitness.Backend.Application.Contracts.Repositories;
 using Fitness.Backend.Application.DataContracts.Enums;
 using Fitness.Backend.Application.DataContracts.Models.Entity;
+using Fitness.Backend.WebApi.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,70 +11,76 @@ using Microsoft.AspNetCore.Mvc;
 namespace Fitness.Backend.WebApi.Controllers
 {
     [Route("[controller]")]
-    [Authorize]
     [ApiController]
     public class LessonsController : ControllerBase
     {
-        private readonly IClientBusinessLogic clientBl;
+        private readonly ILessonRepository repo;
+        private readonly IMapper mapper;
 
-        public LessonsController(IClientBusinessLogic clientBl)
+        public LessonsController(ILessonRepository repo, IMapper mapper)
         {
-            this.clientBl = clientBl;
+            this.repo = repo;
+            this.mapper = mapper;
         }
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
 
-        public async Task<ActionResult<IEnumerable<Lesson>>> Get(string? instructorId,string? clientId, int? cityId, int? sportId, Day? day)
+        public async Task<ActionResult<IEnumerable<LessonData>>> Get(string? instructorId, string? sportId, Day? day)
         {
 
-            var result = await clientBl.GetLessonsAsync(instructorId,clientId, cityId, sportId, day);
+            var result = await repo.GetAll(new Lesson { InstructorId = instructorId,SportId = sportId, Day = day});
 
             if (result.Count() == 0)
                 return NotFound();
 
-            return Ok(result);
+            return Ok(result.Select(mapper.Map<LessonData>));
+        }
+
+        [HttpGet("{lessonId}/Clients")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+
+        public async Task<ActionResult<IEnumerable<LessonData>>> GetUsers(string lessonId)
+        {
+
+            var result = await repo.GetLessonUsers(lessonId);
+
+            if (result.Count() == 0)
+                return NotFound();
+
+            return Ok(result.Select(mapper.Map<UserData>));
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Post([FromBody] Lesson lesson)
+        public async Task<ActionResult> Post([FromBody] LessonData lesson)
         {
-            var result = await clientBl.CreateLessonAsync(lesson);
 
-            if (result == DbResult.CREATED) return NoContent();
+            await repo.Add(mapper.Map<Lesson>(lesson));
 
-            if (result == DbResult.NOT_FOUND) return NotFound();
-
-            return StatusCode(500);
+            return NoContent();
         }
 
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Put([FromBody] Lesson lesson)
+        public async Task<ActionResult> Put([FromBody] LessonData lesson)
         {
-            var result = await clientBl.UpdateLessonAsync(lesson);
+            await repo.Update(mapper.Map<Lesson>(lesson));
 
-            if (result == DbResult.UPDATED) return NoContent();
-
-            if(result == DbResult.NOT_FOUND) return NotFound();
-
-            return StatusCode(500);
+            return NoContent();
         }
         [HttpDelete("{lessonId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Delete(int lessonId)
+        public async Task<ActionResult> Delete(string lessonId)
         {
-            var result = await clientBl.DeleteLessonAsync(lessonId);
+            await repo.Delete(lessonId);
 
-            if (result == DbResult.DELETED) return NoContent();
-
-            if (result == DbResult.NOT_FOUND) return NotFound();
-
-            return StatusCode(500);
+            return NoContent();
         }
     }
 }

@@ -15,9 +15,11 @@ namespace Fitness.Backend.WebApi.HostedServices
         {
             using (var scope = _serviceProvider.CreateScope())
             {
-                var seeder = scope.ServiceProvider.GetRequiredService<AuthSeeder>();
+                var authSeeder = scope.ServiceProvider.GetRequiredService<AuthSeeder>();
+                var lessonSeeder = scope.ServiceProvider.GetRequiredService<LessonSeeder>();
 
-                await seeder.Initialize();
+                await authSeeder.Initialize();
+                await lessonSeeder.Initialize();
             }
         }
 

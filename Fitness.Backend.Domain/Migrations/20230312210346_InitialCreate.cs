@@ -3,37 +3,39 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
-namespace Fitness.Backend.Domain.Migrations.AppDb
+namespace Fitness.Backend.Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class cascadeNoAction : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Cities",
+                name: "ProfilePictures",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PostalCode = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    ImageData = table.Column<byte[]>(type: "bytea", nullable: false),
+                    Del = table.Column<int>(type: "integer", nullable: false),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cities", x => x.Id);
+                    table.PrimaryKey("PK_ProfilePictures", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Sports",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Del = table.Column<int>(type: "integer", nullable: false),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,17 +46,21 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                 name: "Clients",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CityId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    ImageId = table.Column<int>(type: "integer", nullable: true),
+                    ProfilePicId = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Del = table.Column<int>(type: "integer", nullable: false),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Clients", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Clients_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
+                        name: "FK_Clients_ProfilePictures_ProfilePicId",
+                        column: x => x.ProfilePicId,
+                        principalTable: "ProfilePictures",
                         principalColumn: "Id");
                 });
 
@@ -62,10 +68,13 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                 name: "Instructors",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    Del = table.Column<int>(type: "integer", nullable: false),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -81,8 +90,8 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                 name: "InstructorSport",
                 columns: table => new
                 {
-                    InstructorsId = table.Column<int>(type: "int", nullable: false),
-                    SportsId = table.Column<int>(type: "int", nullable: false)
+                    InstructorsId = table.Column<string>(type: "text", nullable: false),
+                    SportsId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -105,26 +114,22 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                 name: "Lessons",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CityId = table.Column<int>(type: "int", nullable: true),
-                    MaxNumber = table.Column<int>(type: "int", nullable: false),
-                    SportId = table.Column<int>(type: "int", nullable: true),
-                    InstructorId = table.Column<int>(type: "int", nullable: true),
-                    Day = table.Column<int>(type: "int", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Location = table.Column<string>(type: "text", nullable: true),
+                    MaxNumber = table.Column<int>(type: "integer", nullable: true),
+                    SportId = table.Column<string>(type: "text", nullable: true),
+                    InstructorId = table.Column<string>(type: "text", nullable: true),
+                    Day = table.Column<int>(type: "integer", nullable: true),
+                    StartTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Del = table.Column<int>(type: "integer", nullable: false),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Lessons", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Lessons_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Lessons_Instructors_InstructorId",
                         column: x => x.InstructorId,
@@ -141,8 +146,8 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                 name: "LessonUser",
                 columns: table => new
                 {
-                    LessonsId = table.Column<int>(type: "int", nullable: false),
-                    UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    LessonsId = table.Column<string>(type: "text", nullable: false),
+                    UsersId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -161,37 +166,10 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Cities",
-                columns: new[] { "Id", "Name", "PostalCode" },
-                values: new object[,]
-                {
-                    { 1, "Budapest", 1011 },
-                    { 2, "Debrecen", 4024 },
-                    { 3, "Miskolc", 3525 },
-                    { 4, "Szeged", 6720 },
-                    { 5, "Pécs", 7621 },
-                    { 6, "Győr", 9021 },
-                    { 7, "Nyíregyháza", 4400 },
-                    { 8, "Kecskemét", 6000 },
-                    { 9, "Székesfehérvár", 8000 },
-                    { 10, "Szombathely", 9700 },
-                    { 11, "Szolnok", 5000 },
-                    { 12, "Tatabánya", 2800 },
-                    { 13, "Kaposvár", 7400 },
-                    { 14, "Érd", 2030 },
-                    { 15, "Veszprém", 8200 },
-                    { 16, "Békéscsaba", 5600 },
-                    { 17, "Zalaegerszeg", 8900 },
-                    { 18, "Sopron", 9400 },
-                    { 19, "Eger", 3300 },
-                    { 20, "Nagykanizsa", 8800 }
-                });
-
             migrationBuilder.CreateIndex(
-                name: "IX_Clients_CityId",
+                name: "IX_Clients_ProfilePicId",
                 table: "Clients",
-                column: "CityId");
+                column: "ProfilePicId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Instructors_UserId",
@@ -202,11 +180,6 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                 name: "IX_InstructorSport_SportsId",
                 table: "InstructorSport",
                 column: "SportsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Lessons_CityId",
-                table: "Lessons",
-                column: "CityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Lessons_InstructorId",
@@ -246,7 +219,7 @@ namespace Fitness.Backend.Domain.Migrations.AppDb
                 name: "Clients");
 
             migrationBuilder.DropTable(
-                name: "Cities");
+                name: "ProfilePictures");
         }
     }
 }

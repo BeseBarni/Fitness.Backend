@@ -1,4 +1,5 @@
-﻿using Fitness.Backend.Application.DataContracts.Models;
+﻿using Fitness.Backend.Application.DataContracts.Enums;
+using Fitness.Backend.Application.DataContracts.Models;
 using Fitness.Backend.Application.DataContracts.Models.Entity;
 using Fitness.Backend.Domain.DbContexts;
 using Microsoft.AspNetCore.Identity;
@@ -24,19 +25,64 @@ namespace Fitness.Backend.Domain.Seeders
 
         public async Task Initialize()
         {
-            var sports = new string[]{ "Karate", "Yoga", "Spinning", "Boying", "Running" };
+            _context.Database.Migrate();
+
+            if (_context.Sports.Count() != 0)
+                return;
+            var sports = new string[]{ "Karate", "Yoga", "Spinning", "Boying", "Running", "Linux szerver telepítés", "Vim-ből kilépés" };
+            if (_context.Sports.Count() != 0)
+                return;
             foreach (var sport in sports)
             {
-                if(await _context.Sports.FirstAsync(p => p.Name == sport) == null)
                     await _context.Sports.AddAsync(new Sport { Name = sport});
 
             }
+            await _context.SaveChangesAsync();
+
+
+            if (_context.Clients.Count() != 0)
+                return;
+            var identityUser = await _userManager.FindByEmailAsync("fitness.instructor@backend.com");
+            var user = new User()
+            {
+                Id = identityUser.Id,
+                Name = "Har Mónika"
+            };
+            var instructor = new Instructor()
+            {
+                Id = "1",
+                User= user,
+                Description = "Sziasztok, Har Mónikának hívnak",
+                Status = InstructorStatus.ACCEPTED,
+                Sports = _context.Sports.Where(p => p.Name == "Karate" || p.Name == "Yoga").ToList()
+            };
+            _context.Instructors.Add(instructor);
 
             await _context.SaveChangesAsync();
 
-            var lessons = new List<Lesson>()
+            identityUser = await _userManager.FindByEmailAsync("fitness.client@backend.com");
+            var client = new User()
             {
+                Id = identityUser.Id,
+                Name = "Cserepes Virág",
+                Lessons= new List<Lesson>()
+                 {
+                     new Lesson
+                     {
+                           Instructor = instructor,
+                           Location = "109-es terem",
+                            MaxNumber = 10,
+                             Day = Day.FRIDAY,
+                              StartTime= DateTime.UtcNow,
+                              EndTime= DateTime.UtcNow.AddMinutes(120),
+                               Name = "USB Type C foglalat hajtogatása",
+                               Sport = _context.Sports.FirstOrDefault(p => p.Name == "Linux szerver telepítés")
+                                 
+                     }
+                 }
             };
+            _context.Clients.Add(client);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Fitness.Backend.Domain.DbContexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace Fitness.Backend.Domain.Seeders
 {
@@ -24,7 +25,7 @@ namespace Fitness.Backend.Domain.Seeders
 
         public async Task Initialize()
         {
-
+            _context.Database.Migrate();
             string[] roles = new string[] { "Administrator", "Instructor", "Client" };
 
             foreach (string role in roles)
@@ -88,10 +89,10 @@ namespace Fitness.Backend.Domain.Seeders
 
                     var userStore = new UserStore<ApplicationUser>(_context);
                     var result = await userStore.CreateAsync(user);
-                    i++;
                 }
                 
                 await AssignRoles(user.Email, roles[i]);
+                i++;
             }
 
 
