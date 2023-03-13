@@ -17,6 +17,7 @@ namespace Fitness.Backend.Domain.Migrations
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
+                    ContentType = table.Column<string>(type: "text", nullable: false),
                     ImageData = table.Column<byte[]>(type: "bytea", nullable: false),
                     Del = table.Column<int>(type: "integer", nullable: false),
                     Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -47,9 +48,9 @@ namespace Fitness.Backend.Domain.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    ImageId = table.Column<int>(type: "integer", nullable: true),
-                    ProfilePicId = table.Column<string>(type: "text", nullable: true),
+                    ImageId = table.Column<string>(type: "text", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: true),
+                    Gender = table.Column<int>(type: "integer", nullable: true),
                     Del = table.Column<int>(type: "integer", nullable: false),
                     Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -58,8 +59,8 @@ namespace Fitness.Backend.Domain.Migrations
                 {
                     table.PrimaryKey("PK_Clients", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Clients_ProfilePictures_ProfilePicId",
-                        column: x => x.ProfilePicId,
+                        name: "FK_Clients_ProfilePictures_ImageId",
+                        column: x => x.ImageId,
                         principalTable: "ProfilePictures",
                         principalColumn: "Id");
                 });
@@ -71,7 +72,7 @@ namespace Fitness.Backend.Domain.Migrations
                     Id = table.Column<string>(type: "text", nullable: false),
                     UserId = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
-                    Status = table.Column<int>(type: "integer", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: true),
                     Del = table.Column<int>(type: "integer", nullable: false),
                     Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -167,9 +168,9 @@ namespace Fitness.Backend.Domain.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clients_ProfilePicId",
+                name: "IX_Clients_ImageId",
                 table: "Clients",
-                column: "ProfilePicId");
+                column: "ImageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Instructors_UserId",

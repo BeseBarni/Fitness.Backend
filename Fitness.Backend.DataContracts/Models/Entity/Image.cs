@@ -14,6 +14,7 @@ namespace Fitness.Backend.Application.DataContracts.Models.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
         public string Name { get; set; }
+        public string ContentType { get; set; }
         public byte[] ImageData { get; set; }
         public int Del { get; set; } = 0;
         public DateTime Created { get; set; } = DateTime.UtcNow;

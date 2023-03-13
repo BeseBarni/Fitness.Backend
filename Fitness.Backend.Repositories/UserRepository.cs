@@ -3,6 +3,7 @@ using Fitness.Backend.Application.DataContracts.Exceptions;
 using Fitness.Backend.Application.DataContracts.Extensions;
 using Fitness.Backend.Application.DataContracts.Models.Entity;
 using Fitness.Backend.Domain.DbContexts;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -36,8 +37,8 @@ namespace Fitness.Backend.Repositories
                 throw new ResourceNotFoundException();
 
             user.Del = 1;
-            if (user.ProfilePic != null)
-                user.ProfilePic.Del = 1;
+            if (user.Image != null)
+                user.Image.Del = 1;
             await context.SaveChangesAsync();
         }
 
@@ -96,6 +97,37 @@ namespace Fitness.Backend.Repositories
 
             result.Lessons = result.Lessons ?? new List<Lesson>(); 
             return result.Lessons.Where(p => p.Del == 0);
+        }
+
+        public async Task AddImage(string userId, IFormFile image)
+        {
+            var result = await context.Clients.DelFilter().FirstOrDefaultAsync(p => p.Id == userId);
+            if (result == null) throw new ResourceNotFoundException();
+
+            var img = new Image
+            {
+                Name = string.Format("{0}_{1}",userId,image.Name),
+                ContentType= image.ContentType
+            };
+            
+            MemoryStream memoryStream = new MemoryStream();
+            await image.CopyToAsync(memoryStream);
+            img.ImageData = memoryStream.ToArray();
+            result.Image = img;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<Image> GetImage(string userId)
+        {
+            var result = await context.Clients.DelFilter().FirstOrDefaultAsync(p => p.Id == userId);
+            if (result == null) throw new ResourceNotFoundException();
+
+            var imgs = await context.ProfilePictures.ToListAsync();
+
+            if(result.Image == null) throw new ResourceNotFoundException();
+
+            return result.Image;
+
         }
     }
 }

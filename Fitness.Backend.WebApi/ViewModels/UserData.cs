@@ -1,4 +1,5 @@
-﻿using Fitness.Backend.Application.DataContracts.Models.Entity;
+﻿using Fitness.Backend.Application.DataContracts.Enums;
+using Fitness.Backend.Application.DataContracts.Models.Entity;
 
 namespace Fitness.Backend.WebApi.ViewModels
 {
@@ -7,6 +8,7 @@ namespace Fitness.Backend.WebApi.ViewModels
         public string? Id { get; set; }
         public string? ImageId { get; set; }
         public string? Name { get; set; }
+        public Gender? Gender { get; set; }
 
     }
 }

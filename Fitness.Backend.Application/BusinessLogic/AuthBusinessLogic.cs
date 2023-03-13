@@ -80,7 +80,7 @@ namespace Fitness.Backend.Application.BusinessLogic
             if (authUser == null)
                 throw new ResourceNotFoundException();
 
-            return "Itt majd image ID fog jönni";
+            return authUser.Id;
         }
         public Task<string> Register(RegisterUser user)
         {

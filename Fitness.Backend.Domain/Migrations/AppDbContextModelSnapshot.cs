@@ -28,6 +28,10 @@ namespace Fitness.Backend.Domain.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("text");
 
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
@@ -165,8 +169,11 @@ namespace Fitness.Backend.Domain.Migrations
                     b.Property<int>("Del")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("ImageId")
+                    b.Property<int?>("Gender")
                         .HasColumnType("integer");
+
+                    b.Property<string>("ImageId")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("timestamp with time zone");
@@ -174,12 +181,9 @@ namespace Fitness.Backend.Domain.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<string>("ProfilePicId")
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ProfilePicId");
+                    b.HasIndex("ImageId");
 
                     b.ToTable("Clients");
                 });
@@ -240,11 +244,11 @@ namespace Fitness.Backend.Domain.Migrations
 
             modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Models.Entity.User", b =>
                 {
-                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.Entity.Image", "ProfilePic")
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.Entity.Image", "Image")
                         .WithMany()
-                        .HasForeignKey("ProfilePicId");
+                        .HasForeignKey("ImageId");
 
-                    b.Navigation("ProfilePic");
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("InstructorSport", b =>

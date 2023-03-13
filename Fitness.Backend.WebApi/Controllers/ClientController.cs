@@ -7,6 +7,7 @@ using Fitness.Backend.WebApi.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Fitness.Backend.WebApi.Controllers
 {
@@ -50,6 +51,24 @@ namespace Fitness.Backend.WebApi.Controllers
             var result = await repo.GetLessons(clientId);
             return Ok(result.Select(mapper.Map<LessonData>));
         }
+
+        [HttpGet("{clientId}/Picture")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetPicture(string clientId)
+        {
+            var result = await repo.GetImage(clientId);
+
+            return File(result.ImageData, result.ContentType, result.Name);
+        }
+
+        [HttpPost("{clientId}/Picture")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<LessonData>>> AddPicture(string clientId, IFormFile image)
+        {
+            await repo.AddImage(clientId, image);
+            return NoContent();
+        }
+
 
         [HttpPut("{clientId}/Lessons/{lessonId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

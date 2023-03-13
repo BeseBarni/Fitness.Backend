@@ -1,4 +1,5 @@
 ﻿using Fitness.Backend.Application.DataContracts.Models.Entity;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,7 @@ namespace Fitness.Backend.Application.Contracts.Repositories
     {
         Task AddLesson(string lessonId, string userId);
         Task<IEnumerable<Lesson>> GetLessons(string userId);
+        Task<Image> GetImage(string userId);
+        Task AddImage(string userId, IFormFile image);
     }
 }

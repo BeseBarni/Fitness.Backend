@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fitness.Backend.Domain.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230313091455_ID_Identity")]
-    partial class ID_Identity
+    [Migration("20230313235030_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,6 +29,10 @@ namespace Fitness.Backend.Domain.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("Created")
@@ -168,8 +172,11 @@ namespace Fitness.Backend.Domain.Migrations
                     b.Property<int>("Del")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("ImageId")
+                    b.Property<int?>("Gender")
                         .HasColumnType("integer");
+
+                    b.Property<string>("ImageId")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("timestamp with time zone");
@@ -177,12 +184,9 @@ namespace Fitness.Backend.Domain.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<string>("ProfilePicId")
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ProfilePicId");
+                    b.HasIndex("ImageId");
 
                     b.ToTable("Clients");
                 });
@@ -243,11 +247,11 @@ namespace Fitness.Backend.Domain.Migrations
 
             modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Models.Entity.User", b =>
                 {
-                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.Entity.Image", "ProfilePic")
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.Entity.Image", "Image")
                         .WithMany()
-                        .HasForeignKey("ProfilePicId");
+                        .HasForeignKey("ImageId");
 
-                    b.Navigation("ProfilePic");
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("InstructorSport", b =>

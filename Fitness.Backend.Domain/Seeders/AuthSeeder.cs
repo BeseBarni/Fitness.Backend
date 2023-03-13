@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Fitness.Backend.Domain.DbContexts;
 using Microsoft.EntityFrameworkCore;
+using Fitness.Backend.Application.DataContracts.Models.Entity;
 
 namespace Fitness.Backend.Domain.Seeders
 {
@@ -26,6 +27,9 @@ namespace Fitness.Backend.Domain.Seeders
         public async Task Initialize()
         {
             _context.Database.Migrate();
+
+
+
             string[] roles = new string[] { "Administrator", "Instructor", "Client" };
 
             foreach (string role in roles)
@@ -37,7 +41,7 @@ namespace Fitness.Backend.Domain.Seeders
                     await roleStore.CreateAsync(new IdentityRole(role) { NormalizedName = role.ToUpper()});
                 }
             }
-
+            
 
             var users = new List<ApplicationUser>()
             { 
