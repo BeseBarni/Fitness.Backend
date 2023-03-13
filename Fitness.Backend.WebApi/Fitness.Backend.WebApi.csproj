@@ -43,4 +43,8 @@
     <ProjectReference Include="..\Fitness.Backend.Services\Fitness.Backend.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Filters\" />
+  </ItemGroup>
+
 </Project>

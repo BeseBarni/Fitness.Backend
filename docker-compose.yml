@@ -14,7 +14,7 @@ services:
       - "app-db"
     container_name: fitness-backend
     ports:
-      - "8001:90"
+      - "90:90"
     environment:
       - ConnectionStrings__DefaultConnection=Server=app-db;User Id=fitness; Password=fitness;Port=5432;Database=Fitness;
       - ASPNETCORE_URLS=http://+:90

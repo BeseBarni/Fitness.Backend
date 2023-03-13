@@ -32,12 +32,20 @@ namespace Fitness.Backend.WebApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CheckEmail([FromBody] string email)
+        {
+
+            var result = await authBl.CheckEmail(email);
+            return Ok(result);
+        }
+
         //[HttpPost]
         //public async Task<IActionResult> Register([FromBody] LoginUser user)
         //{
         //    var result = await userManager.CreateAsync(new ApplicationUser { UserName = user.Name, Email = user.Email, EmailConfirmed = true }, user.Password);
         //    var authUser = await userManager.FindByNameAsync(user.Name);
-            
+
         //    return Ok(result);
         //}
     }

@@ -21,14 +21,16 @@ namespace Fitness.Backend.Application.BusinessLogic
         private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IAuthTokenService tokenService;
-        private readonly ILessonRepository lessonRepo;
+        private readonly IInstructorRepository instructorRepo;
+        private readonly IUserRepository userRepo;
 
-        public AuthBusinessLogic(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IAuthTokenService tokenService, ILessonRepository lessonRepo)
+        public AuthBusinessLogic(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IAuthTokenService tokenService, IInstructorRepository instructorRepo, IUserRepository userRepo)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.tokenService = tokenService;
-            this.lessonRepo = lessonRepo;
+            this.instructorRepo = instructorRepo;
+            this.userRepo = userRepo;
         }
 
         public async Task<string> Login(LoginUser user)
@@ -45,15 +47,11 @@ namespace Fitness.Backend.Application.BusinessLogic
 
                 var userRoles = await userManager.GetRolesAsync(authUser);
 
-                if (userRoles.Contains("Instructor"))
-                {
 
-                }
 
                 var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, authUser.UserName),
-                    new Claim("emailConfirmed", authUser.EmailConfirmed.ToString()),
                     new Claim("emailConfirmed", authUser.EmailConfirmed.ToString())
                 };
                 foreach (var role in userRoles)
@@ -61,10 +59,32 @@ namespace Fitness.Backend.Application.BusinessLogic
                     authClaims.Add(new Claim(ClaimTypes.Role, role));
                 }
 
+                if (userRoles.Contains("Instructor"))
+                {
+                    var inst = await instructorRepo.GetAll(new Instructor { UserId = authUser.Id });
+                    authClaims.Add(new Claim("instructorStatus", inst.First().Status.ToString()));
+
+                }
+
                 var token = tokenService.GenerateToken(authClaims);
                 return (new JwtSecurityTokenHandler().WriteToken(token));
             }
             throw new UnauthorizedException();
+        }
+
+
+        public async Task<string> CheckEmail(string email)
+        {
+            var authUser = await userManager.FindByEmailAsync(email);
+
+            if (authUser == null)
+                throw new ResourceNotFoundException();
+
+            return "Itt majd image ID fog jönni";
+        }
+        public Task<string> Register(RegisterUser user)
+        {
+            throw new NotImplementedException();
         }
     }
 }

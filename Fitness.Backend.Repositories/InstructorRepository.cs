@@ -21,7 +21,7 @@ namespace Fitness.Backend.Repositories
         public async Task Add(Instructor parameters)
         {
             if (context.Instructors.DelFilter().Where(p => p.UserId == parameters.UserId).Count() > 0)
-                throw new Exception();
+                throw new ResourceAlreadyExistsException(string.Format("InstructorId.UserId:{0}",parameters.UserId));
 
             context.Add(parameters);
 
@@ -32,7 +32,7 @@ namespace Fitness.Backend.Repositories
         {
             var instructor = await context.Instructors.DelFilter().FirstOrDefaultAsync(p => p.Id == id);
             if (instructor == null)
-                throw new ResourceNotFoundException();
+                throw new ResourceNotFoundException(string.Format("InstructorId:{0}", id));
 
             instructor.Del = 1;
             context.Entry(instructor)
@@ -48,11 +48,10 @@ namespace Fitness.Backend.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Instructor>> GetAll(Instructor parameters)
+        public async Task<IEnumerable<Instructor>?> GetAll(Instructor? parameters)
         {
             var result = await context.Instructors.DelFilter().ToListAsync();
-                
-
+               
             return result;
         }
 
@@ -60,7 +59,7 @@ namespace Fitness.Backend.Repositories
         {
             var result = await context.Instructors.DelFilter().FirstOrDefaultAsync(p => p.Id == id);
             if (result == null)
-                throw new ResourceNotFoundException();
+                throw new ResourceNotFoundException(string.Format("InstructorId:{0}", id));
 
             return result;
         }
@@ -69,7 +68,7 @@ namespace Fitness.Backend.Repositories
         {
             var instructor = await context.Instructors.DelFilter().FirstOrDefaultAsync(p => p.Id == parameters.Id);
             if (instructor == null)
-                throw new ResourceNotFoundException();
+                throw new ResourceNotFoundException(string.Format("InstructorId:{0}", parameters.Id));
 
             instructor.Status = parameters.Status ?? instructor.Status;
             instructor.Description = parameters.Description ?? instructor.Description;
@@ -82,12 +81,12 @@ namespace Fitness.Backend.Repositories
             var sport = await context.Sports.DelFilter().FirstOrDefaultAsync(p => p.Id == sportId);
 
             if(sport == null)
-                throw new ResourceNotFoundException();
+                throw new ResourceNotFoundException(string.Format("SportId:{0}",sportId));
 
             var instructor = await context.Instructors.DelFilter().FirstOrDefaultAsync(p => p.Id == instructorId);
 
             if (instructor == null)
-                throw new ResourceNotFoundException();
+                throw new ResourceNotFoundException(string.Format("InstructorId:{0}", instructorId));
 
             instructor.Sports = instructor.Sports ?? new List<Sport>();
             instructor.Sports.Add(sport);

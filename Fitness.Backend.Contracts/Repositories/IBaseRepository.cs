@@ -8,7 +8,7 @@ namespace Fitness.Backend.Application.Contracts.Repositories
 {
     public interface IBaseRepository<T>
     {
-        public abstract Task<IEnumerable<T>> GetAll(T? parameters);
+        public abstract Task<IEnumerable<T>?> GetAll(T? parameters);
         public abstract Task Delete(string id);
         public abstract Task Update(T parameters);
         public abstract Task Add(T parameters);

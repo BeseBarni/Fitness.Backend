@@ -10,5 +10,7 @@ namespace Fitness.Backend.Application.Contracts.BusinessLogic
     public interface IAuthBusinessLogic
     {
         Task<string> Login(LoginUser user);
+        Task<string> Register(RegisterUser user);
+        Task<string> CheckEmail(string email);
     }
 }
