@@ -3,12 +3,14 @@ using Fitness.Backend.Application.Contracts.Repositories;
 using Fitness.Backend.Application.DataContracts.Enums;
 using Fitness.Backend.Application.DataContracts.Models.Entity;
 using Fitness.Backend.WebApi.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fitness.Backend.WebApi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class InstructorController : ControllerBase
     {
@@ -37,6 +39,7 @@ namespace Fitness.Backend.WebApi.Controllers
         }
 
         [HttpPost]
+        
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Post([FromBody] InstructorData instructor)

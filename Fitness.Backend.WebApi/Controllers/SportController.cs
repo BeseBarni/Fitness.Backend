@@ -37,6 +37,7 @@ namespace Fitness.Backend.WebApi.Controllers
         }
 
         [HttpDelete("{sportId}")]
+        [Authorize(Roles = "Administrator")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete(string sportId)
@@ -49,12 +50,14 @@ namespace Fitness.Backend.WebApi.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult> Post([FromBody] SportData sport)
         {
             throw new NotImplementedException();
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrator")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Put([FromBody] SportData sport)

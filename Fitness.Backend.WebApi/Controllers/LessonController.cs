@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Fitness.Backend.WebApi.Controllers
 {
     [Route("[controller]")]
+    [Authorize]
     [ApiController]
     public class LessonsController : ControllerBase
     {
@@ -54,6 +55,7 @@ namespace Fitness.Backend.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Instructor")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Post([FromBody] LessonData lesson)
@@ -65,6 +67,7 @@ namespace Fitness.Backend.WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Instructor")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Put([FromBody] LessonData lesson)
@@ -74,6 +77,7 @@ namespace Fitness.Backend.WebApi.Controllers
             return NoContent();
         }
         [HttpDelete("{lessonId}")]
+        [Authorize(Roles = "Instructor")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete(string lessonId)
