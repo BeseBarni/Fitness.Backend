@@ -4,12 +4,14 @@ using Fitness.Backend.Application.Contracts.Repositories;
 using Fitness.Backend.Application.DataContracts.Enums;
 using Fitness.Backend.Application.DataContracts.Models.Entity;
 using Fitness.Backend.WebApi.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fitness.Backend.WebApi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class ClientController : ControllerBase
     {
@@ -45,7 +47,17 @@ namespace Fitness.Backend.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<LessonData>>> GetLessons(string clientId)
         {
-            throw new NotImplementedException();
+            var result = await repo.GetLessons(clientId);
+            return Ok(result.Select(mapper.Map<LessonData>));
+        }
+
+        [HttpPut("{clientId}/Lessons/{lessonId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult<IEnumerable<LessonData>>> AddLesson(string clientId, string lessonId)
+        {
+            await repo.AddLesson(lessonId, clientId);
+
+            return NoContent();
         }
 
         [HttpDelete("{clientId}")]

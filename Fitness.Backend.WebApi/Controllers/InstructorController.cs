@@ -39,16 +39,18 @@ namespace Fitness.Backend.WebApi.Controllers
         }
 
         [HttpPost]
-        
+
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Post([FromBody] InstructorData instructor)
         {
 
-            throw new NotImplementedException();
+            await repo.Add(mapper.Map<Instructor>(instructor));
+            return NoContent();
         }
 
         [HttpPut]
+        [Authorize(Roles = "Instructor,Administrator")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Put([FromBody] InstructorData instructor)
@@ -57,7 +59,20 @@ namespace Fitness.Backend.WebApi.Controllers
 
             return NoContent();
         }
+
+        [HttpPut("{instructorId}/Sports/{sportId}")]
+        [Authorize(Roles = "Instructor,Administrator")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> Put(string instructorId, string sportId)
+        {
+            await repo.AddSport(instructorId, sportId);
+
+            return NoContent();
+        }
+
         [HttpDelete("{instructorId}")]
+        [Authorize(Roles = "Administrator")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete(string instructorId)

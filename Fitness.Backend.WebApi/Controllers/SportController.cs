@@ -53,7 +53,8 @@ namespace Fitness.Backend.WebApi.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<ActionResult> Post([FromBody] SportData sport)
         {
-            throw new NotImplementedException();
+            await repo.Add(mapper.Map<Sport>(sport));
+            return NoContent();
         }
 
         [HttpPut]

@@ -9,5 +9,7 @@ namespace Fitness.Backend.Application.Contracts.Repositories
 {
     public interface IUserRepository : IBaseRepository<User>
     {
+        Task AddLesson(string lessonId, string userId);
+        Task<IEnumerable<Lesson>> GetLessons(string userId);
     }
 }

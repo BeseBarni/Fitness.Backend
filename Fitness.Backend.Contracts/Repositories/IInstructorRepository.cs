@@ -9,5 +9,6 @@ namespace Fitness.Backend.Application.Contracts.Repositories
 {
     public interface IInstructorRepository : IBaseRepository<Instructor>
     {
+        Task AddSport(string instructorId, string sportId);
     }
 }
