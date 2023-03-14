@@ -25,7 +25,7 @@ namespace Fitness.Backend.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginUser user)
+        public async Task<ActionResult<JwtToken>> Login([FromBody] LoginUser user)
         {
 
             var result = await authBl.Login(user);
@@ -33,7 +33,7 @@ namespace Fitness.Backend.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CheckEmail([FromBody] string email)
+        public async Task<ActionResult<string>> CheckEmail([FromBody] string email)
         {
 
             var result = await authBl.CheckEmail(email);
