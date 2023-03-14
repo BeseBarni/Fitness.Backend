@@ -28,6 +28,19 @@ namespace Fitness.Backend.Domain.Seeders
         {
             _context.Database.Migrate();
 
+            var userNames = new List<string>()
+            {             "Kovács Péter",
+            "Nagy Anna",
+            "Szabó Máté",
+            "Tóth Zsófia",
+            "Horváth Ádám",
+            "Kis Petra",
+            "Balogh Bence",
+            "Farkas Csaba",
+            "Molnár Zoltán",
+            "Takács Eszter"
+            };
+
 
 
             string[] roles = new string[] { "Administrator", "Instructor", "Client" };
@@ -82,7 +95,23 @@ namespace Fitness.Backend.Domain.Seeders
                     SecurityStamp = Guid.NewGuid().ToString("D")
                 }
             };
-            int i = 0;
+            var i = 0;
+            foreach (var n in userNames)
+            {
+                users.Add(
+                    new ApplicationUser
+                    {
+                        Email = "client"+i+"@backend.com",
+                        UserName = n,
+                        EmailConfirmed= true,
+                        PhoneNumberConfirmed = true,
+                        SecurityStamp = Guid.NewGuid().ToString("D")
+
+                    }
+                    );
+                i++;
+            }
+            i = 0;
             foreach (var user in users)
             {
                 if (!_context.Users.Any(u => u.UserName == user.UserName))
@@ -96,7 +125,7 @@ namespace Fitness.Backend.Domain.Seeders
                 }
                 
                 await AssignRoles(user.Email, roles[i]);
-                i++;
+                if(i <3)i++;
             }
 
 

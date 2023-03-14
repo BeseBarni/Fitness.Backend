@@ -29,7 +29,7 @@ namespace Fitness.Backend.WebApi.Controllers
         {
 
             var result = await authBl.Login(user);
-            return Ok(result);
+            return Ok(new JwtToken { Value = result});
         }
 
         [HttpPost]
