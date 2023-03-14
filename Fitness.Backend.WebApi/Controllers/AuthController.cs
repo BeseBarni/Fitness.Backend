@@ -33,10 +33,10 @@ namespace Fitness.Backend.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> CheckEmail([FromBody] string email)
+        public async Task<ActionResult<UserIdData>> CheckEmail([FromBody] CheckEmailData email)
         {
 
-            var result = await authBl.CheckEmail(email);
+            var result = await authBl.CheckEmail(email.Email);
             return Ok(result);
         }
 

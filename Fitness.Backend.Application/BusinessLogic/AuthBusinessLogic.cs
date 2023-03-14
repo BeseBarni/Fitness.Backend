@@ -7,6 +7,7 @@ using Fitness.Backend.Application.DataContracts.Models.Entity;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -73,18 +74,34 @@ namespace Fitness.Backend.Application.BusinessLogic
         }
 
 
-        public async Task<string> CheckEmail(string email)
+        public async Task<UserIdData> CheckEmail(string email)
         {
             var authUser = await userManager.FindByEmailAsync(email);
 
             if (authUser == null)
                 throw new ResourceNotFoundException();
 
-            return authUser.Id;
+            return new UserIdData { Id = authUser.Id };
         }
-        public Task<string> Register(RegisterUser user)
+        public async Task<string> Register(RegisterUser user)
         {
-            throw new NotImplementedException();
+            var u = new ApplicationUser
+            {
+                UserName = user.Name,
+                Email = user.Email,
+                EmailConfirmed = true
+            };
+            
+            await userManager.CreateAsync(u);
+            u = await userManager.FindByEmailAsync(user.Email);
+            await userManager.AddPasswordAsync(u, user.Password);
+            string role = user.IsInstructor ? "Instructor" : "Client";
+            await userManager.AddToRoleAsync(u, role);
+
+            await userRepo.Add(new User { Id = u.Id, Name = u.UserName, Gender = user.Gender });
+            if (user.IsInstructor)
+                await instructorRepo.Add(new Instructor { UserId = u.Id, Status = InstructorStatus.VALIDATION_PENDING });
+            return await Login(new LoginUser { Email = user.Email, Password = user.Password });
         }
     }
 }

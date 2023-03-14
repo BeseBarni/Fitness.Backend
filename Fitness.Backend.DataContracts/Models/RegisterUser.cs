@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fitness.Backend.Application.DataContracts.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Fitness.Backend.Application.DataContracts.Models
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public Gender Gender { get; set; }
         public bool IsInstructor { get; set; }
     }
 }
