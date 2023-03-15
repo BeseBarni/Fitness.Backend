@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Fitness.Backend.Contracts\Fitness.Backend.Application.Contracts.csproj" />
     <ProjectReference Include="..\Fitness.Backend.DataContracts\Fitness.Backend.Application.DataContracts.csproj" />
   </ItemGroup>
 

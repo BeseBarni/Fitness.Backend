@@ -10,26 +10,34 @@ using System.Threading.Tasks;
 using Fitness.Backend.Domain.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Fitness.Backend.Application.DataContracts.Models.Entity;
+using Fitness.Backend.Application.DataContracts.Enums;
+using Fitness.Backend.Application.Contracts.BusinessLogic;
+using Fitness.Backend.Application.Contracts.Repositories;
 
 namespace Fitness.Backend.Domain.Seeders
 {
     public class AuthSeeder
     {
         private readonly AuthDbContext _context;
-        UserManager<ApplicationUser> _userManager;
+        private readonly AppDbContext appContext;
 
-        public AuthSeeder(AuthDbContext context, UserManager<ApplicationUser> userManager)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IAuthBusinessLogic authBl;
+        private readonly IUserRepository userRepo;
+
+        public AuthSeeder(AuthDbContext context, UserManager<ApplicationUser> userManager, IAuthBusinessLogic authBl, IUserRepository userRepo, AppDbContext appContext)
         {
             _context = context;
             _userManager = userManager;
+            this.authBl = authBl;
+            this.userRepo = userRepo;
+            this.appContext = appContext;
         }
 
         public async Task Initialize()
         {
             _context.Database.Migrate();
-
-
-
+            appContext.Database.Migrate();
 
             string[] roles = new string[] { "Administrator", "Instructor", "Client" };
 
@@ -39,67 +47,114 @@ namespace Fitness.Backend.Domain.Seeders
 
                 if (!_context.Roles.Any(r => r.Name == role))
                 {
-                    await roleStore.CreateAsync(new IdentityRole(role) { NormalizedName = role.ToUpper()});
+                    await roleStore.CreateAsync(new IdentityRole(role) { NormalizedName = role.ToUpper() });
                 }
             }
-            
 
-            var users = new List<ApplicationUser>()
-            { 
-                new ApplicationUser
-                {
+            if (_userManager.Users.Any())
+                return;
 
-                    Email = "fitness.admin@backend.com",
-                    NormalizedEmail = "FITNESS.ADMIN@BACKEND.COM",
-                    UserName = "Administrator",
-                    NormalizedUserName = "ADMINISTRATOR",
-                    PhoneNumber = "+111111111111",
-                    EmailConfirmed = true,
-                    PhoneNumberConfirmed = true,
-                    SecurityStamp = Guid.NewGuid().ToString("D")
-                },
-                new ApplicationUser
-                {
 
-                    Email = "fitness.instructor@backend.com",
-                    NormalizedEmail = "FITNESS.INSTRUCTOR@BACKEND.COM",
-                    UserName = "Instructor",
-                    NormalizedUserName = "INSTRUCTOR",
-                    PhoneNumber = "+222222222222",
-                    EmailConfirmed = true,
-                    PhoneNumberConfirmed = true,
-                    SecurityStamp = Guid.NewGuid().ToString("D")
-                },
-                                                new ApplicationUser
-                {
-
-                    Email = "fitness.client@backend.com",
-                    NormalizedEmail = "FITNESS.CLIENT@BACKEND.COM",
-                    UserName = "Client",
-                    NormalizedUserName = "CLIENT",
-                    PhoneNumber = "+333333333333",
-                    EmailConfirmed = true,
-                    PhoneNumberConfirmed = true,
-                    SecurityStamp = Guid.NewGuid().ToString("D")
-                }
-            };
-            int i = 0;
-            foreach (var user in users)
+            var r = new Random();
+            List<string> maleFirstNames = new List<string>
             {
-                if (!_context.Users.Any(u => u.UserName == user.UserName))
-                {
-                    var password = new PasswordHasher<ApplicationUser>();
-                    var hashed = password.HashPassword(user, "fitness");
-                    user.PasswordHash = hashed;
+                "Ábel",
+                "Ádám",
+                "Ákos",
+                "Albert",
+                "András",
+                "Antal",
+                "Attila",
+                "Balázs",
+                "Béla",
+                "Botond",
+                "Csaba",
+                "Dániel",
+                "Gábor",
+                "István",
+                "János",
+                "László",
+                "Levente",
+                "Máté",
+                "Miklós",
+                "Norbert",
+                "Péter",
+                "Sándor",
+                "Tamás",
+                "Viktor",
+                "Zoltán"
+            };
 
-                    var userStore = new UserStore<ApplicationUser>(_context);
-                    var result = await userStore.CreateAsync(user);
-                }
-                
-                await AssignRoles(user.Email, roles[i]);
-                i++;
+            List<string> femaleFirst = new List<string>() {
+                "Anna", "Zsófia", "Eszter", "Katalin", "Ágnes", "Mária", "Judit", "Julianna", "Borbála",
+                "Viktória", "Lilla", "Emília", "Henrietta", "Éva", "Kitti", "Orsolya", "Szilvia", "Boglárka",
+                "Gabriella", "Renáta", "Dóra", "Flóra", "Noémi", "Enikő", "Melinda", "Réka", "Zsuzsanna",
+                "Ibolya", "Mónika", "Bernadett", "Zsanett", "Margit"
+            };
+
+            var registerUsers = new List<RegisterUser>()
+            {
+                new RegisterUser { Email = "fitness.instructor@backend.com", Gender = Application.DataContracts.Enums.Gender.MALE, IsInstructor = true, Name = "Instructor Pista", Password = "fitness" },
+                new RegisterUser { Email = "fitness.client@backend.com", Gender = Application.DataContracts.Enums.Gender.MALE, IsInstructor = false, Name = "Client Béla", Password = "fitness" },
+                new RegisterUser { Email = "fitness.admin@backend.com", Gender = Application.DataContracts.Enums.Gender.MALE, IsInstructor = false, Name = "Admin Józsi", Password = "fitness" }
+            };
+
+            for (int i = 0; i < 15; i++)
+            {
+                registerUsers.Add(new RegisterUser
+                {
+                    Email = "fitness.client" + i + "@backend.com",
+                    Name = "Client" +" "+ maleFirstNames[r.Next(0, maleFirstNames.Count())],
+                    Password = "fitness",
+                    Gender = Application.DataContracts.Enums.Gender.MALE,
+                    IsInstructor = false,
+                });
+                registerUsers.Add(new RegisterUser
+                {
+                    Email = "fitness.client" + (i + 15) + "@backend.com",
+                    Name = "Client" + " " + femaleFirst[r.Next(0, femaleFirst.Count())],
+                    Password = "fitness",
+                    Gender = Application.DataContracts.Enums.Gender.FEMALE,
+                    IsInstructor = false,
+                });
+            };
+            for (int i = 0; i < 10; i++)
+            {
+                int gender = r.Next(0, 2);
+                registerUsers.Add(new RegisterUser
+                {
+                    Email = "fitness.instructor" + (i + 1) + "@backend.com",
+                    Name = "Client" + " " + (gender == 0 ? maleFirstNames[r.Next(0, maleFirstNames.Count())] : femaleFirst[r.Next(0, femaleFirst.Count())]),
+                    Password = "fitness",
+                    Gender = (Gender)gender,
+                    IsInstructor = true,
+                });
             }
 
+            foreach (var user in registerUsers)
+            {
+                await authBl.RegisterWithoutLogin(user);
+
+            }
+
+            var u = new ApplicationUser
+            {
+                UserName = "Admin Pisti",
+                Email = "fitness.admin@backend.com",
+                EmailConfirmed = true,
+                NormalizedEmail = "fitness.admin@backend.com".ToUpper()
+            };
+
+            var password = new PasswordHasher<ApplicationUser>();
+            var hashed = password.HashPassword(u, "fitness");
+            u.PasswordHash = hashed;
+
+            var userStore = new UserStore<ApplicationUser>(_context);
+            await userStore.CreateAsync(u);
+
+            await _userManager.AddToRoleAsync(u, roles[0]);
+
+            await userRepo.Add(new User { Id = u.Id, Name = u.UserName, Gender = Gender.MALE });
 
             await _context.SaveChangesAsync();
         }

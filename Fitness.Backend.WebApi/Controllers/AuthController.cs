@@ -40,6 +40,13 @@ namespace Fitness.Backend.WebApi.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ApplicationUser>>> Get()
+        {
+            var result =  await authBl.GetUsers();
+            return Ok(result);
+        }
+
         //[HttpPost]
         //public async Task<IActionResult> Register([FromBody] LoginUser user)
         //{

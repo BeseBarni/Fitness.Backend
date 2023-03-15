@@ -22,8 +22,6 @@ namespace Fitness.Backend.Repositories
 
         public async Task Add(User parameters)
         {
-            if (context.Clients.DelFilter().Where(p => p.Name == parameters.Name).Count() > 0)
-                throw new Exception();
 
             context.Add(parameters);
 
@@ -106,7 +104,7 @@ namespace Fitness.Backend.Repositories
 
             var img = new Image
             {
-                Name = string.Format("{0}_{1}",userId,image.Name),
+                Name = string.Format("{0}_{1}.{2}", userId, image.Name, image.ContentType.Split('/')[1]),
                 ContentType= image.ContentType
             };
             
