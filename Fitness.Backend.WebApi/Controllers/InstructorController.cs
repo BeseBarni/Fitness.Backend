@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fitness.Backend.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [Authorize]
     [ApiController]
     public class InstructorController : ControllerBase
@@ -69,6 +69,27 @@ namespace Fitness.Backend.WebApi.Controllers
             await repo.AddSport(instructorId, sportId);
 
             return NoContent();
+        }
+
+
+        [HttpGet("{instructorId}/Sports")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetSports(string instructorId)
+        {
+            var result = await repo.GetSports(instructorId);
+
+            return Ok(mapper.Map<SportData>(result));
+        }
+
+        [HttpGet("{instructorId}/Lessons")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetLessons(string instructorId)
+        {
+            var result = await repo.GetLessons(instructorId);
+
+            return Ok(mapper.Map<LessonData>(result));
         }
 
         [HttpDelete("{instructorId}")]

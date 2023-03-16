@@ -11,7 +11,7 @@ using System.Net;
 
 namespace Fitness.Backend.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [Authorize]
     [ApiController]
     public class ClientController : ControllerBase

@@ -66,5 +66,14 @@ namespace Fitness.Backend.Repositories
             sport.Name = parameters.Name;
             await context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<Instructor>?> GetInstructors(string sportId)
+        {
+            var sport = await context.Sports.DelFilter().FirstOrDefaultAsync(p => p.Id == sportId);
+            if (sport == null) throw new ResourceNotFoundException();
+
+            return sport.Instructors;
+
+        }
     }
 }

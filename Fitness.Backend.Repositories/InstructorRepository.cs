@@ -92,5 +92,21 @@ namespace Fitness.Backend.Repositories
             instructor.Sports.Add(sport);
             await context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<Sport>?> GetSports(string instructorId)
+        {
+            var result = await context.Instructors.DelFilter().FirstOrDefaultAsync(p => p.Id == instructorId);
+            if (result == null) throw new ResourceNotFoundException();
+            
+            return result.Sports;
+        }
+
+        public async Task<IEnumerable<Lesson>?> GetLessons(string instructorId)
+        {
+            var result = await context.Instructors.DelFilter().FirstOrDefaultAsync(p => p.Id == instructorId);
+            if (result == null) throw new ResourceNotFoundException();
+
+            return result.Lessons;
+        }
     }
 }

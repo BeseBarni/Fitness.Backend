@@ -35,6 +35,13 @@ namespace Fitness.Backend.WebApi.Controllers
                 
             return Ok(result.Select(mapper.Map<SportData>));
         }
+        [HttpGet("{sportId}/Instructors")]
+        public async Task<ActionResult<IEnumerable<SportData>>> GetInstructors(string sportId)
+        {
+            var result = await repo.GetInstructors(sportId);
+
+            return Ok(mapper.Map<InstructorData>(result));
+        }
 
         [HttpDelete("{sportId}")]
         [Authorize(Roles = "Administrator")]
