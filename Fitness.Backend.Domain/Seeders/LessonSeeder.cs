@@ -110,7 +110,7 @@ namespace Fitness.Backend.Domain.Seeders
 
                 var img = new Application.DataContracts.Models.Entity.Image
                 {
-                    Name = string.Format("{0}_profile", user.Id),
+                    Name = string.Format("{0}_profile.jpg", user.Id),
                     ContentType = "image/jpg"
                 };
 
