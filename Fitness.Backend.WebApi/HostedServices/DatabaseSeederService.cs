@@ -24,6 +24,7 @@ namespace Fitness.Backend.WebApi.HostedServices
 
                 await authSeeder.Initialize();
                 await lessonSeeder.Initialize();
+                Console.WriteLine("Init finished");
             }
         }
 

@@ -92,8 +92,7 @@ namespace Fitness.Backend.Application.Seeders
             var registerUsers = new List<RegisterUser>()
             {
                 new RegisterUser { Email = "fitness.instructor@backend.com", Gender = Gender.MALE, IsInstructor = true, Name = "Instructor Pista", Password = "fitness" },
-                new RegisterUser { Email = "fitness.client@backend.com", Gender = Gender.MALE, IsInstructor = false, Name = "Client Béla", Password = "fitness" },
-                new RegisterUser { Email = "fitness.admin@backend.com", Gender = Gender.MALE, IsInstructor = false, Name = "Admin Józsi", Password = "fitness" }
+                new RegisterUser { Email = "fitness.client@backend.com", Gender = Gender.MALE, IsInstructor = false, Name = "Client Béla", Password = "fitness" }
             };
 
             for (int i = 0; i < 15; i++)

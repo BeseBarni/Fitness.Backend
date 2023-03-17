@@ -2,8 +2,10 @@
 using Fitness.Backend.Application.Contracts.Repositories;
 using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
 using Fitness.Backend.Application.DataContracts.Models.ViewModels;
+using Fitness.Backend.WebApi.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Fitness.Backend.WebApi.Controllers
 {
@@ -15,20 +17,30 @@ namespace Fitness.Backend.WebApi.Controllers
 
         private readonly ISportRepository repo;
         private readonly IMapper mapper;
+        private readonly IDistributedCache cache;
 
-        public SportController(ISportRepository repo, IMapper mapper)
+        public SportController(ISportRepository repo, IMapper mapper, IDistributedCache cache)
         {
             this.repo = repo;
             this.mapper = mapper;
+            this.cache = cache;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<SportData>>> Get()
         {
-            var result = await repo.GetAll(null);
+            var key = "get_all_sports";
+            var result = await cache.GetRecordAsync<IEnumerable<SportData>>(key);
+            if(result == null)
+            {
+                var temp = await repo.GetAll(null);
+                Console.WriteLine("Getting sports from db");
+                result = temp.Select(mapper.Map<SportData>);
+                await cache.SetRecordAsync(key,result);
+            }
                 
-            return Ok(result.Select(mapper.Map<SportData>));
+            return Ok(result);
         }
         [HttpGet("{sportId}/Instructors")]
         public async Task<ActionResult<IEnumerable<SportData>>> GetInstructors(string sportId)

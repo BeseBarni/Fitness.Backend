@@ -12,11 +12,13 @@ services:
       dockerfile: Fitness.Backend.WebApi/Dockerfile
     depends_on:
       - "app-db"
+      - "redis-cache"
     container_name: fitness-backend
     ports:
       - "90:90"
     environment:
       - ConnectionStrings__DefaultConnection=Server=app-db;User Id=fitness; Password=fitness;Port=5432;Database=Fitness;
+      - ConnectionStrings__Redis=redis-cache
       - ASPNETCORE_URLS=http://+:90
     networks:
       - dev
@@ -33,6 +35,15 @@ services:
     restart: always
     volumes:
       - app_data:/var/lib/postgresql/data
+    networks:
+      - dev
+
+  redis-cache:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --loglevel warning
     networks:
       - dev
 

@@ -7,6 +7,7 @@ using Fitness.Backend.Application.Seeders;
 using Fitness.Backend.Domain.DbContexts;
 using Fitness.Backend.Repositories;
 using Fitness.Backend.Services.Auth;
+using Fitness.Backend.WebApi.Filters;
 using Fitness.Backend.WebApi.HostedServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -32,7 +33,10 @@ builder.Services.AddTransient<AuthSeeder>();
 builder.Services.AddTransient<AppDataSeeder>();
 builder.Services.AddTransient<AuthDbContext>();
 builder.Services.AddCors();
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<HttpResponseExceptionFilter>();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -62,6 +66,13 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = configuration.GetConnectionString("Redis") ?? throw new InvalidOperationException("Connection string 'Redis' not found");
+    options.InstanceName = "fitness:";
+   
+});
 
 //Itt át kell írni a connection string-et
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
