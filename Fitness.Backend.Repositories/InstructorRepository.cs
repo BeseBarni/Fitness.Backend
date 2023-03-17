@@ -1,17 +1,15 @@
 ﻿using Fitness.Backend.Application.Contracts.Repositories;
 using Fitness.Backend.Application.DataContracts.Exceptions;
-using Fitness.Backend.Application.DataContracts.Models.Entity;
+using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
 using Fitness.Backend.Domain.DbContexts;
 using Fitness.Backend.Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fitness.Backend.Repositories
 {
+    /// <summary>
+    /// Repository for accessing, updating and deleting instructor related data in the database
+    /// </summary>
     public class InstructorRepository : BaseRepository, IInstructorRepository
     {
         public InstructorRepository(AppDbContext context) : base(context)

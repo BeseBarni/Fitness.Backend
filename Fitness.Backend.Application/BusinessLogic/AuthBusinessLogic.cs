@@ -1,9 +1,11 @@
 ﻿using Fitness.Backend.Application.Contracts.BusinessLogic;
 using Fitness.Backend.Application.Contracts.Repositories;
 using Fitness.Backend.Application.Contracts.Services;
+using Fitness.Backend.Application.DataContracts.Enums;
 using Fitness.Backend.Application.DataContracts.Exceptions;
-using Fitness.Backend.Application.DataContracts.Models;
 using Fitness.Backend.Application.DataContracts.Models.Entity;
+using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
+using Fitness.Backend.Application.DataContracts.Models.ViewModels;
 using Fitness.Backend.Domain.DbContexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

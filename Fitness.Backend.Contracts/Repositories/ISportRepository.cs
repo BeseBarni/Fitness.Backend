@@ -1,4 +1,4 @@
-﻿using Fitness.Backend.Application.DataContracts.Models.Entity;
+﻿using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
 
 namespace Fitness.Backend.Application.Contracts.Repositories
 {

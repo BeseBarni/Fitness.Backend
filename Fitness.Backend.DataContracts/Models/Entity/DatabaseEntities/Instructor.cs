@@ -1,4 +1,5 @@
-﻿using Fitness.Backend.Application.DataContracts.Models.Entity.Interfaces;
+﻿using Fitness.Backend.Application.DataContracts.Enums;
+using Fitness.Backend.Application.DataContracts.Models.Entity.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;

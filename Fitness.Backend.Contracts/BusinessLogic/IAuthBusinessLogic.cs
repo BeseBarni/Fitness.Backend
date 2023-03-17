@@ -1,4 +1,5 @@
-﻿using Fitness.Backend.Application.DataContracts.Models;
+﻿using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
+using Fitness.Backend.Application.DataContracts.Models.ViewModels;
 
 namespace Fitness.Backend.Application.Contracts.BusinessLogic
 {
