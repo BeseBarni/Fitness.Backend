@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace Fitness.Backend.Application.DataContracts.Enums
 {
-    public enum DbResult
+    public enum InstructorStatus
     {
-        CREATED,
-        DELETED,
-        UPDATED,
-        NOT_FOUND,
-        FAILED,
-        SUCCESSFUL
+        VALIDATION_PENDING,
+        ACCEPTED,
+        DENIED
     }
 }

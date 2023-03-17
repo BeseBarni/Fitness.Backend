@@ -1,4 +1,4 @@
-﻿namespace Fitness.Backend.WebApi.ViewModels
+﻿namespace Fitness.Backend.Application.DataContracts.Models.ViewModels
 {
     public class SportData
     {

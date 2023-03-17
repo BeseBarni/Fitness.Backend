@@ -1,21 +1,18 @@
-﻿using Fitness.Backend.Application.DataContracts.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Fitness.Backend.Domain.DbContexts;
 using Microsoft.EntityFrameworkCore;
-using Fitness.Backend.Application.DataContracts.Models.Entity;
 using Fitness.Backend.Application.DataContracts.Enums;
 using Fitness.Backend.Application.Contracts.BusinessLogic;
 using Fitness.Backend.Application.Contracts.Repositories;
+using Fitness.Backend.Application.DataContracts.Models.ViewModels;
+using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
 
-namespace Fitness.Backend.Domain.Seeders
+namespace Fitness.Backend.Application.Seeders
 {
+    /// <summary>
+    /// initializes the Indentity Auth database with users
+    /// </summary>
     public class AuthSeeder
     {
         private readonly AuthDbContext _context;
@@ -94,9 +91,9 @@ namespace Fitness.Backend.Domain.Seeders
 
             var registerUsers = new List<RegisterUser>()
             {
-                new RegisterUser { Email = "fitness.instructor@backend.com", Gender = Application.DataContracts.Enums.Gender.MALE, IsInstructor = true, Name = "Instructor Pista", Password = "fitness" },
-                new RegisterUser { Email = "fitness.client@backend.com", Gender = Application.DataContracts.Enums.Gender.MALE, IsInstructor = false, Name = "Client Béla", Password = "fitness" },
-                new RegisterUser { Email = "fitness.admin@backend.com", Gender = Application.DataContracts.Enums.Gender.MALE, IsInstructor = false, Name = "Admin Józsi", Password = "fitness" }
+                new RegisterUser { Email = "fitness.instructor@backend.com", Gender = Gender.MALE, IsInstructor = true, Name = "Instructor Pista", Password = "fitness" },
+                new RegisterUser { Email = "fitness.client@backend.com", Gender = Gender.MALE, IsInstructor = false, Name = "Client Béla", Password = "fitness" },
+                new RegisterUser { Email = "fitness.admin@backend.com", Gender = Gender.MALE, IsInstructor = false, Name = "Admin Józsi", Password = "fitness" }
             };
 
             for (int i = 0; i < 15; i++)
@@ -104,9 +101,9 @@ namespace Fitness.Backend.Domain.Seeders
                 registerUsers.Add(new RegisterUser
                 {
                     Email = "fitness.client" + i + "@backend.com",
-                    Name = "Client" +" "+ maleFirstNames[r.Next(0, maleFirstNames.Count())],
+                    Name = "Client" + " " + maleFirstNames[r.Next(0, maleFirstNames.Count())],
                     Password = "fitness",
-                    Gender = Application.DataContracts.Enums.Gender.MALE,
+                    Gender = Gender.MALE,
                     IsInstructor = false,
                 });
                 registerUsers.Add(new RegisterUser
@@ -114,7 +111,7 @@ namespace Fitness.Backend.Domain.Seeders
                     Email = "fitness.client" + (i + 15) + "@backend.com",
                     Name = "Client" + " " + femaleFirst[r.Next(0, femaleFirst.Count())],
                     Password = "fitness",
-                    Gender = Application.DataContracts.Enums.Gender.FEMALE,
+                    Gender = Gender.FEMALE,
                     IsInstructor = false,
                 });
             };

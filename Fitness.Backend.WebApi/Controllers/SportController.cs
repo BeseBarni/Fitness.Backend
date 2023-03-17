@@ -1,14 +1,9 @@
 ﻿using AutoMapper;
-using Fitness.Backend.Application.Contracts.BusinessLogic;
 using Fitness.Backend.Application.Contracts.Repositories;
-using Fitness.Backend.Application.DataContracts.Enums;
-using Fitness.Backend.Application.DataContracts.Models.Entity;
-using Fitness.Backend.WebApi.ViewModels;
+using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
+using Fitness.Backend.Application.DataContracts.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Fitness.Backend.WebApi.Controllers
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fitness.Backend.Application.DataContracts.Models
+namespace Fitness.Backend.Application.DataContracts.Models.ViewModels
 {
     public class CheckEmailData
     {

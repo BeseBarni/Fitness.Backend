@@ -1,11 +1,6 @@
 ﻿using Fitness.Backend.Application.DataContracts.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Fitness.Backend.Application.DataContracts.Models
+namespace Fitness.Backend.Application.DataContracts.Models.ViewModels
 {
     public class RegisterUser
     {

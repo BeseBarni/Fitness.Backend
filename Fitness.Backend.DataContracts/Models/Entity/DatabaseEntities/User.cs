@@ -7,24 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fitness.Backend.Application.DataContracts.Models.Entity
+namespace Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities
 {
-    public class Lesson : IDeleteable, IDateTrackeable
+    public class User : IDeleteable, IDateTrackeable
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-
         public string Id { get; set; }
+        public string? ImageId { get; set; }
+        public virtual Image? Image { get; set; }
+        public virtual ICollection<Lesson>? Lessons { get; set; }
         public string? Name { get; set; }
-        public string? Location { get; set; }
-        public int? MaxNumber { get; set; }
-        public string? SportId { get; set; }
-        public Sport? Sport { get; set; }
-        public string? InstructorId { get; set; }
-        public Instructor? Instructor { get; set; }
-        public virtual ICollection<User>? Users { get; set; }
-        public Day? Day { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public Gender? Gender { get; set; } = Enums.Gender.MALE;
         public int Del { get; set; } = 0;
         public DateTime Created { get; set; } = DateTime.UtcNow;
         public DateTime LastUpdated { get; set; } = DateTime.UtcNow;

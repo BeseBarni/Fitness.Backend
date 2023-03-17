@@ -1,19 +1,16 @@
 ﻿using Fitness.Backend.Application.Contracts.Repositories;
 using Fitness.Backend.Application.DataContracts.Exceptions;
-using Fitness.Backend.Application.DataContracts.Extensions;
-using Fitness.Backend.Application.DataContracts.Models.Entity;
+using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
 using Fitness.Backend.Domain.DbContexts;
+using Fitness.Backend.Domain.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.WebSockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fitness.Backend.Repositories
 {
+    /// <summary>
+    /// Repository for accessing, updating and deleting user related data in the database
+    /// </summary>
     public class UserRepository : BaseRepository, IUserRepository
     {
         public UserRepository(AppDbContext context) : base(context)

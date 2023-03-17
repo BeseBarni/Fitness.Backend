@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Fitness.Backend.Application.Contracts.Repositories
+﻿namespace Fitness.Backend.Application.Contracts.Repositories
 {
+    /// <summary>
+    /// Base repository interface for implementing CRUD functions
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IBaseRepository<T>
     {
         public abstract Task<IEnumerable<T>?> GetAll(T? parameters);

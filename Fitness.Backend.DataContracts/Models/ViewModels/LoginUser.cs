@@ -1,4 +1,4 @@
-﻿namespace Fitness.Backend.Application.DataContracts.Models
+﻿namespace Fitness.Backend.Application.DataContracts.Models.ViewModels
 {
     public class LoginUser
     {

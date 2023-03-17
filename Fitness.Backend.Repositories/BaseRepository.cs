@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Fitness.Backend.Repositories
 {
+    /// <summary>
+    /// Base repository to expose Db context to all inheriting classes
+    /// </summary>
     public abstract class BaseRepository
     {
         protected readonly AppDbContext context;

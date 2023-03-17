@@ -1,19 +1,15 @@
 ﻿using Fitness.Backend.Application.Contracts.Repositories;
-using Fitness.Backend.Application.DataContracts.Enums;
 using Fitness.Backend.Application.DataContracts.Exceptions;
-using Fitness.Backend.Application.DataContracts.Extensions;
-using Fitness.Backend.Application.DataContracts.Models.Entity;
+using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
 using Fitness.Backend.Domain.DbContexts;
-using IdentityModel.Client;
+using Fitness.Backend.Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fitness.Backend.Repositories
 {
+    /// <summary>
+    /// Repository for accessing, updating and deleting sport related data in the database
+    /// </summary>
     public class SportRepository : BaseRepository, ISportRepository
     {
         public SportRepository(AppDbContext context) : base(context)

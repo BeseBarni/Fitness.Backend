@@ -1,14 +1,7 @@
 ﻿using Fitness.Backend.Application.Contracts.BusinessLogic;
-using Fitness.Backend.Application.Contracts.Services;
-using Fitness.Backend.Application.DataContracts.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
+using Fitness.Backend.Application.DataContracts.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Rewrite;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace Fitness.Backend.WebApi.Controllers
 {

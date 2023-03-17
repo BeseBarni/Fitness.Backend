@@ -8,14 +8,8 @@ using Fitness.Backend.Domain.DbContexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Data;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fitness.Backend.Application.BusinessLogic
 {
@@ -91,7 +85,7 @@ namespace Fitness.Backend.Application.BusinessLogic
             if (authUser == null)
                 throw new ResourceNotFoundException();
 
-            return new UserIdData { Id = authUser.Id };
+            return new UserIdData(authUser.Id);
         }
         public async Task<string> Register(RegisterUser user)
         {

@@ -1,30 +1,19 @@
-﻿using Fitness.Backend.Application.Contracts.Repositories;
-using Fitness.Backend.Application.DataContracts.Enums;
-using Fitness.Backend.Application.DataContracts.Models;
-using Fitness.Backend.Application.DataContracts.Models.Entity;
+﻿using Fitness.Backend.Application.DataContracts.Enums;
+using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
 using Fitness.Backend.Domain.DbContexts;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace Fitness.Backend.Domain.Seeders
+namespace Fitness.Backend.Application.Seeders
 {
-    public class LessonSeeder
+    /// <summary>
+    /// Initializes the App database and populates it with data
+    /// </summary>
+    public class AppDataSeeder
     {
         private readonly AppDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IUserRepository userRepo;
-        public LessonSeeder(AppDbContext context, UserManager<ApplicationUser> userManager, IUserRepository userRepo)
+        public AppDataSeeder(AppDbContext context)
         {
             _context = context;
-            _userManager = userManager;
-            this.userRepo = userRepo;
         }
 
         public async Task Initialize()
@@ -66,8 +55,8 @@ namespace Fitness.Backend.Domain.Seeders
                 for (int i = 0; i < 6; i++)
                 {
                     instructor.Sports = new List<Sport>();
-                    
-                    instructor.Sports.Add(sports[r.Next(0,sports.Count())]);
+
+                    instructor.Sports.Add(sports[r.Next(0, sports.Count())]);
                     lessons.Add(new Lesson
                     {
                         Instructor = instructor,
@@ -80,16 +69,16 @@ namespace Fitness.Backend.Domain.Seeders
                         Users = new List<User>()
                     });
 
-               } 
+                }
             }
 
 
 
             foreach (var lesson in lessons)
             {
-                for (int i = 0; i < r.Next(0,(int)lesson.MaxNumber); i++)
+                for (int i = 0; i < r.Next(0, (int)lesson.MaxNumber); i++)
                 {
-                    var skip = (int)r.Next(0, _context.Clients.Count());
+                    var skip = r.Next(0, _context.Clients.Count());
                     var randUser = await _context.Clients.Skip(skip).Take(1).FirstOrDefaultAsync();
                     if (!lesson.Users.Contains(randUser))
                         lesson.Users.Add(randUser);
@@ -102,13 +91,13 @@ namespace Fitness.Backend.Domain.Seeders
             foreach (var user in _context.Clients)
             {
                 Stream data;
-                if(user.Gender == Gender.MALE)
+                if (user.Gender == Gender.MALE)
                     data = await client.GetStreamAsync(@"https://xsgames.co/randomusers/avatar.php?g=male");
                 else
                     data = await client.GetStreamAsync(@"https://xsgames.co/randomusers/avatar.php?g=female");
 
 
-                var img = new Application.DataContracts.Models.Entity.Image
+                var img = new Image
                 {
                     Name = string.Format("{0}_profile.jpg", user.Id),
                     ContentType = "image/jpg"
