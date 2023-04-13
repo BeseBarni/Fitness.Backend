@@ -1,4 +1,4 @@
-﻿using Fitness.Backend.Application.DataContracts.Models.Entity.Interfaces;
+﻿using Fitness.Backend.Application.DataContracts.Interfaces;
 
 namespace Fitness.Backend.Domain.Extensions
 {

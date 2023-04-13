@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Fitness.Backend.Application.Contracts.BusinessLogic;
 using Fitness.Backend.Application.Contracts.Repositories;
+using Fitness.Backend.Application.DataContracts.Entity;
 using Fitness.Backend.Application.DataContracts.Enums;
-using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
-using Fitness.Backend.Application.DataContracts.Models.ViewModels;
+using Fitness.Backend.Application.DataContracts.Models;
+using Fitness.Backend.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,12 +15,12 @@ namespace Fitness.Backend.WebApi.Controllers
     [ApiController]
     public class LessonsController : ControllerBase
     {
-        private readonly ILessonRepository repo;
+        private readonly ILessonBusinessLogic bl;
         private readonly IMapper mapper;
 
-        public LessonsController(ILessonRepository repo, IMapper mapper)
+        public LessonsController(ILessonBusinessLogic bl, IMapper mapper)
         {
-            this.repo = repo;
+            this.bl = bl;
             this.mapper = mapper;
         }
 
@@ -29,12 +31,12 @@ namespace Fitness.Backend.WebApi.Controllers
         public async Task<ActionResult<IEnumerable<LessonData>>> Get(string? instructorId, string? sportId, Day? day)
         {
 
-            var result = await repo.GetAll(new Lesson { InstructorId = instructorId,SportId = sportId, Day = day});
+            var result = await bl.GetAll(new LessonData { InstructorId = instructorId,SportId = sportId, Day = day});
 
             if (result.Count() == 0)
                 return NotFound();
 
-            return Ok(result.Select(mapper.Map<LessonData>));
+            return Ok(result);
         }
 
         [HttpGet("{lessonId}/Clients")]
@@ -44,12 +46,12 @@ namespace Fitness.Backend.WebApi.Controllers
         public async Task<ActionResult<IEnumerable<LessonData>>> GetUsers(string lessonId)
         {
 
-            var result = await repo.GetLessonUsers(lessonId);
+            var result = await bl.GetLessonUsers(lessonId);
 
             if (result.Count() == 0)
                 return NotFound();
 
-            return Ok(result.Select(mapper.Map<UserData>));
+            return Ok(result);
         }
 
         [HttpPost]
@@ -59,7 +61,7 @@ namespace Fitness.Backend.WebApi.Controllers
         public async Task<ActionResult> Post([FromBody] LessonData lesson)
         {
 
-            await repo.Add(mapper.Map<Lesson>(lesson));
+            await bl.Add(lesson);
 
             return NoContent();
         }
@@ -70,7 +72,7 @@ namespace Fitness.Backend.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Put([FromBody] LessonData lesson)
         {
-            await repo.Update(mapper.Map<Lesson>(lesson));
+            await bl.Update(lesson);
 
             return NoContent();
         }
@@ -80,7 +82,7 @@ namespace Fitness.Backend.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete(string lessonId)
         {
-            await repo.Delete(lessonId);
+            await bl.Delete(lessonId);
 
             return NoContent();
         }

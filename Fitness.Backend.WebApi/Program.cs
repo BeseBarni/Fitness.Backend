@@ -2,7 +2,7 @@ using Fitness.Backend.Application.BusinessLogic;
 using Fitness.Backend.Application.Contracts.BusinessLogic;
 using Fitness.Backend.Application.Contracts.Repositories;
 using Fitness.Backend.Application.Contracts.Services;
-using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
+using Fitness.Backend.Application.DataContracts.Entity;
 using Fitness.Backend.Application.Seeders;
 using Fitness.Backend.Domain.DbContexts;
 using Fitness.Backend.Repositories;
@@ -20,18 +20,25 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 // Add services to the container.
 
-builder.Services.AddScoped<IAuthBusinessLogic, AuthBusinessLogic>();
 
 builder.Services.AddScoped<ILessonRepository, LessonRepository>();
 builder.Services.AddScoped<ISportRepository, SportRepository>();
 builder.Services.AddScoped<IInstructorRepository, InstructorRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+builder.Services.AddScoped<IAuthBusinessLogic, AuthBusinessLogic>();
+builder.Services.AddScoped<ISportBusinessLogic, SportBusinessLogic>();
+builder.Services.AddScoped<IInstructorBusinessLogic, InstructorBusinessLogic>();
+builder.Services.AddScoped<IUserBusinessLogic, UserBusinessLogic>();
+builder.Services.AddScoped<ILessonBusinessLogic, LessonBusinessLogic>();
+
+
 builder.Services.AddScoped<IAuthTokenService, AuthTokenService>();
 
 builder.Services.AddTransient<AuthSeeder>();
 builder.Services.AddTransient<AppDataSeeder>();
 builder.Services.AddTransient<AuthDbContext>();
+
 builder.Services.AddCors();
 builder.Services.AddControllers(options =>
 {
@@ -117,7 +124,10 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.DisplayRequestDuration();
+    });
 
 app.UseCors(options =>
 {

@@ -1,9 +1,9 @@
-﻿using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
+﻿using Fitness.Backend.Application.DataContracts.Entity;
 
 namespace Fitness.Backend.Application.Contracts.Repositories
 {
     public interface ISportRepository : IBaseRepository<Sport>
     {
-        Task<IEnumerable<Instructor>?> GetInstructors(string sportId);
+        Task<IEnumerable<Instructor>> GetInstructors(string sportId);
     }
 }

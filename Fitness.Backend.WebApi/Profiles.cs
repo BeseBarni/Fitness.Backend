@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
+using Fitness.Backend.Application.DataContracts.Entity;
 
 namespace Fitness.Backend.Application.DataContracts.Models.ViewModels
 {
@@ -9,10 +9,13 @@ namespace Fitness.Backend.Application.DataContracts.Models.ViewModels
         {
             CreateMap<User, UserData>();
             CreateMap<UserData, User>();
+
             CreateMap<Lesson, LessonData>();
             CreateMap<LessonData, Lesson>();
+
             CreateMap<Sport, SportData>();
             CreateMap<SportData, Sport>();
+
             CreateMap<Instructor, InstructorData>();
             CreateMap<InstructorData, Instructor>();
         }

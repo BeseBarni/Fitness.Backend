@@ -1,6 +1,6 @@
 ﻿using Fitness.Backend.Application.Contracts.Repositories;
+using Fitness.Backend.Application.DataContracts.Entity;
 using Fitness.Backend.Application.DataContracts.Exceptions;
-using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
 using Fitness.Backend.Domain.DbContexts;
 using Fitness.Backend.Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -93,15 +93,16 @@ namespace Fitness.Backend.Repositories
 
         public async Task<IEnumerable<Sport>?> GetSports(string instructorId)
         {
-            var result = await context.Instructors.DelFilter().FirstOrDefaultAsync(p => p.Id == instructorId);
+            var result = await context.Instructors.Include(i => i.Sports).DelFilter().FirstOrDefaultAsync(p => p.Id == instructorId);
             if (result == null) throw new ResourceNotFoundException();
-            
+
+
             return result.Sports;
         }
 
         public async Task<IEnumerable<Lesson>?> GetLessons(string instructorId)
         {
-            var result = await context.Instructors.DelFilter().FirstOrDefaultAsync(p => p.Id == instructorId);
+            var result = await context.Instructors.Include(i => i.Lessons).DelFilter().FirstOrDefaultAsync(p => p.Id == instructorId);
             if (result == null) throw new ResourceNotFoundException();
 
             return result.Lessons;

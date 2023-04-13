@@ -1,6 +1,6 @@
 ﻿using Fitness.Backend.Application.Contracts.BusinessLogic;
-using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
-using Fitness.Backend.Application.DataContracts.Models.ViewModels;
+using Fitness.Backend.Application.DataContracts.Entity;
+using Fitness.Backend.Application.DataContracts.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fitness.Backend.WebApi.Controllers
@@ -18,18 +18,18 @@ namespace Fitness.Backend.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<JwtToken>> Login([FromBody] LoginUser user)
+        public async Task<ActionResult<LoggedInUserData>> Login([FromBody] LoginUser user)
         {
 
             var result = await authBl.Login(user);
-            return Ok(new JwtToken { Value = result});
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserIdData>> CheckEmail([FromBody] CheckEmailData email)
+        public async Task<ActionResult<LoggedInUserData>> Register([FromBody] RegisterUser user)
         {
 
-            var result = await authBl.CheckEmail(email.Email);
+            var result = await authBl.Register(user);
             return Ok(result);
         }
 

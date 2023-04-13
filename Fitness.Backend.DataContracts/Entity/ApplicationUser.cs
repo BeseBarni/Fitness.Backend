@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities
+namespace Fitness.Backend.Application.DataContracts.Entity
 {
     public class ApplicationUser : IdentityUser
     {

@@ -1,4 +1,4 @@
-﻿namespace Fitness.Backend.Application.DataContracts.Models.Entity.Interfaces
+﻿namespace Fitness.Backend.Application.DataContracts.Interfaces
 {
     public interface IDateTrackeable
     {

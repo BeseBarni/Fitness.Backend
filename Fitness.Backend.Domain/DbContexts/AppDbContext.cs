@@ -1,4 +1,4 @@
-﻿using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
+﻿using Fitness.Backend.Application.DataContracts.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fitness.Backend.Domain.DbContexts

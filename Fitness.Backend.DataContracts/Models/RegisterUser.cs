@@ -1,6 +1,6 @@
 ﻿using Fitness.Backend.Application.DataContracts.Enums;
 
-namespace Fitness.Backend.Application.DataContracts.Models.ViewModels
+namespace Fitness.Backend.Application.DataContracts.Models
 {
     public class RegisterUser
     {

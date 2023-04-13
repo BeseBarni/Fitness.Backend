@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Fitness.Backend.Application.DataContracts.Enums;
 using Fitness.Backend.Application.Contracts.BusinessLogic;
 using Fitness.Backend.Application.Contracts.Repositories;
-using Fitness.Backend.Application.DataContracts.Models.ViewModels;
-using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
+using Fitness.Backend.Application.DataContracts.Models;
+using Fitness.Backend.Application.DataContracts.Entity;
 
 namespace Fitness.Backend.Application.Seeders
 {

@@ -1,10 +1,12 @@
 ﻿using Fitness.Backend.Application.Contracts.Repositories;
+using Fitness.Backend.Application.DataContracts.Entity;
 using Fitness.Backend.Application.DataContracts.Exceptions;
-using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
 using Fitness.Backend.Domain.DbContexts;
 using Fitness.Backend.Domain.Extensions;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.EventSource;
 
 namespace Fitness.Backend.Repositories
 {
@@ -29,7 +31,7 @@ namespace Fitness.Backend.Repositories
         {
             var user = await context.Clients.DelFilter().FirstOrDefaultAsync(p => p.Id == id);
             if (user == null)
-                throw new ResourceNotFoundException();
+                throw new ResourceNotFoundException($"user:{id}");
 
             user.Del = 1;
             if (user.Image != null)
@@ -46,7 +48,7 @@ namespace Fitness.Backend.Repositories
         {
             var result = await context.Clients.DelFilter().FirstOrDefaultAsync(p => p.Id == id);
             if (result == null)
-                throw new ResourceNotFoundException();
+                throw new ResourceNotFoundException($"user:{id}");
 
             return result;
 
@@ -56,7 +58,7 @@ namespace Fitness.Backend.Repositories
         {
             var user = await context.Clients.DelFilter().FirstOrDefaultAsync(p => p.Id == parameters.Id);
             if (user == null)
-                throw new ResourceNotFoundException();
+                throw new ResourceNotFoundException($"user:{parameters.Id}");
 
             user.Name = parameters.Name ?? user.Name;
             user.ImageId = parameters.ImageId ?? user.ImageId;
@@ -68,12 +70,12 @@ namespace Fitness.Backend.Repositories
         {
             var result = await context.Lessons.DelFilter().FirstOrDefaultAsync(p => p.Id == lessonId);
             if (result == null)
-                throw new ResourceNotFoundException();
+                throw new ResourceNotFoundException($"lesson:{lessonId}");
 
             var user = await context.Clients.DelFilter().FirstOrDefaultAsync(p => p.Id == userId);
 
             if (user == null)
-                throw new ResourceNotFoundException();
+                throw new ResourceNotFoundException($"user:{userId}");
 
             user.Lessons = user.Lessons ?? new List<Lesson>();
             user.Lessons.Add(result);
@@ -82,13 +84,9 @@ namespace Fitness.Backend.Repositories
 
         public async Task<IEnumerable<Lesson>> GetLessons(string userId)
         {
-            var result = await context.Clients.DelFilter().FirstOrDefaultAsync(p => p.Id == userId);
+            var result = await context.Clients.Include(u => u.Lessons).DelFilter().FirstOrDefaultAsync(p => p.Id == userId);
 
-            if(result == null) throw new ResourceNotFoundException();
-
-            context.Entry(result)
-                .Collection(b => b.Lessons)
-                .Load();
+            if(result == null) throw new ResourceNotFoundException($"user:{userId}");
 
             result.Lessons = result.Lessons ?? new List<Lesson>(); 
             return result.Lessons.Where(p => p.Del == 0);
@@ -97,7 +95,7 @@ namespace Fitness.Backend.Repositories
         public async Task AddImage(string userId, IFormFile image)
         {
             var result = await context.Clients.DelFilter().FirstOrDefaultAsync(p => p.Id == userId);
-            if (result == null) throw new ResourceNotFoundException();
+            if (result == null) throw new ResourceNotFoundException($"user:{userId}");
 
             var img = new Image
             {
@@ -115,11 +113,11 @@ namespace Fitness.Backend.Repositories
         public async Task<Image> GetImage(string userId)
         {
             var result = await context.Clients.DelFilter().FirstOrDefaultAsync(p => p.Id == userId);
-            if (result == null) throw new ResourceNotFoundException();
+            if (result == null) throw new ResourceNotFoundException($"user:{userId}");
 
             var imgs = await context.ProfilePictures.ToListAsync();
 
-            if(result.Image == null) throw new ResourceNotFoundException();
+            if(result.Image == null) throw new ResourceNotFoundException($"user:{userId}_image");
 
             return result.Image;
 

@@ -1,4 +1,4 @@
-﻿using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
+﻿using Fitness.Backend.Application.DataContracts.Entity;
 using Microsoft.AspNetCore.Http;
 
 namespace Fitness.Backend.Application.Contracts.Repositories

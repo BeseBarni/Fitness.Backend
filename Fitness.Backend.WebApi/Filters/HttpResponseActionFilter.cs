@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Fitness.Backend.Application.DataContracts.Exceptions;
+using Fitness.Backend;
 
 namespace Fitness.Backend.WebApi.Filters
 {

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using Fitness.Backend.Application.Contracts.BusinessLogic;
 using Fitness.Backend.Application.Contracts.Repositories;
-using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
-using Fitness.Backend.Application.DataContracts.Models.ViewModels;
-using Fitness.Backend.WebApi.Extensions;
+using Fitness.Backend.Application.DataContracts.Entity;
+using Fitness.Backend.Application.DataContracts.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
@@ -15,39 +15,28 @@ namespace Fitness.Backend.WebApi.Controllers
     public class SportController : ControllerBase
     {
 
-        private readonly ISportRepository repo;
-        private readonly IMapper mapper;
-        private readonly IDistributedCache cache;
+        private readonly ISportBusinessLogic bl;
 
-        public SportController(ISportRepository repo, IMapper mapper, IDistributedCache cache)
+
+        public SportController(ISportBusinessLogic bl)
         {
-            this.repo = repo;
-            this.mapper = mapper;
-            this.cache = cache;
+            this.bl = bl;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<SportData>>> Get()
         {
-            var key = "get_all_sports";
-            var result = await cache.GetRecordAsync<IEnumerable<SportData>>(key);
-            if(result == null)
-            {
-                var temp = await repo.GetAll(null);
-                Console.WriteLine("Getting sports from db");
-                result = temp.Select(mapper.Map<SportData>);
-                await cache.SetRecordAsync(key,result);
-            }
-                
+            var result = await bl.GetAll(null);
+
             return Ok(result);
         }
         [HttpGet("{sportId}/Instructors")]
         public async Task<ActionResult<IEnumerable<SportData>>> GetInstructors(string sportId)
         {
-            var result = await repo.GetInstructors(sportId);
+            var result = await bl.GetInstructors(sportId);
 
-            return Ok(mapper.Map<InstructorData>(result));
+            return Ok(result);
         }
 
         [HttpDelete("{sportId}")]
@@ -56,7 +45,7 @@ namespace Fitness.Backend.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete(string sportId)
         {
-            await repo.Delete(sportId);
+            await bl.Delete(sportId);
 
             return NoContent();
         }
@@ -67,7 +56,7 @@ namespace Fitness.Backend.WebApi.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<ActionResult> Post([FromBody] SportData sport)
         {
-            await repo.Add(mapper.Map<Sport>(sport));
+            await bl.Add(sport);
             return NoContent();
         }
 
@@ -77,7 +66,7 @@ namespace Fitness.Backend.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Put([FromBody] SportData sport)
         {
-            await repo.Update(mapper.Map<Sport>(sport));
+            await bl.Update(sport);
 
 
             return NoContent();
