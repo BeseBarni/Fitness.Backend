@@ -150,7 +150,7 @@ namespace Fitness.Backend.Application.Seeders
 
             await _userManager.AddToRoleAsync(u, roles[0]);
 
-            await userRepo.Add(new User { Id = u.Id, Name = u.UserName, Gender = Gender.MALE });
+            await userRepo.Add(new User { Id = u.Id, Name = u.UserName, Gender = Gender.MALE, Email = u.Email });
 
             await _context.SaveChangesAsync();
         }

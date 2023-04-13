@@ -116,7 +116,7 @@ namespace Fitness.Backend.Application.BusinessLogic
             string role = user.IsInstructor ? "Instructor" : "Client";
             await userManager.AddToRoleAsync(u, role);
 
-            await userRepo.Add(new User { Id = u.Id, Name = u.UserName, Gender = user.Gender });
+            await userRepo.Add(new User { Id = u.Id, Name = u.UserName, Gender = user.Gender, Email=user.Email });
             if (user.IsInstructor)
                 await instructorRepo.Add(new Instructor { UserId = u.Id, Status = InstructorStatus.ACCEPTED });
             return await Login(new LoginUser { Email = user.Email, Password = user.Password });
@@ -143,7 +143,7 @@ namespace Fitness.Backend.Application.BusinessLogic
             string role = user.IsInstructor ? "Instructor" : "Client";
             await userManager.AddToRoleAsync(u, role);
 
-            await userRepo.Add(new User { Id = u.Id, Name = u.UserName, Gender = user.Gender });
+            await userRepo.Add(new User { Id = u.Id, Name = u.UserName, Gender = user.Gender, Email = user.Email });
             if (user.IsInstructor)
                 await instructorRepo.Add(new Instructor { UserId = u.Id, Status = InstructorStatus.ACCEPTED });
         }
