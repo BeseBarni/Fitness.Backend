@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Fitness.Backend.Application.DataContracts.Enums;
 using Fitness.Backend.Application.Contracts.BusinessLogic;
 using Fitness.Backend.Application.Contracts.Repositories;
-using Fitness.Backend.Application.DataContracts.Models.ViewModels;
-using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
+using Fitness.Backend.Application.DataContracts.Models;
+using Fitness.Backend.Application.DataContracts.Entity;
 
 namespace Fitness.Backend.Application.Seeders
 {
@@ -92,8 +92,7 @@ namespace Fitness.Backend.Application.Seeders
             var registerUsers = new List<RegisterUser>()
             {
                 new RegisterUser { Email = "fitness.instructor@backend.com", Gender = Gender.MALE, IsInstructor = true, Name = "Instructor Pista", Password = "fitness" },
-                new RegisterUser { Email = "fitness.client@backend.com", Gender = Gender.MALE, IsInstructor = false, Name = "Client Béla", Password = "fitness" },
-                new RegisterUser { Email = "fitness.admin@backend.com", Gender = Gender.MALE, IsInstructor = false, Name = "Admin Józsi", Password = "fitness" }
+                new RegisterUser { Email = "fitness.client@backend.com", Gender = Gender.MALE, IsInstructor = false, Name = "Client Béla", Password = "fitness" }
             };
 
             for (int i = 0; i < 15; i++)

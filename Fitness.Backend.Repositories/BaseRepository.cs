@@ -1,4 +1,4 @@
-﻿using Fitness.Backend.Application.DataContracts.Models.Entity.Interfaces;
+﻿using Fitness.Backend.Application.DataContracts.Interfaces;
 using Fitness.Backend.Domain.DbContexts;
 using System;
 using System.Collections.Generic;

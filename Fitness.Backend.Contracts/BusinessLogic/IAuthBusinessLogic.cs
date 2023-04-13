@@ -1,12 +1,12 @@
-﻿using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
-using Fitness.Backend.Application.DataContracts.Models.ViewModels;
+﻿using Fitness.Backend.Application.DataContracts.Entity;
+using Fitness.Backend.Application.DataContracts.Models;
 
 namespace Fitness.Backend.Application.Contracts.BusinessLogic
 {
     public interface IAuthBusinessLogic
     {
-        Task<string> Login(LoginUser user);
-        Task<string> Register(RegisterUser user);
+        Task<LoggedInUserData> Login(LoginUser user);
+        Task<LoggedInUserData> Register(RegisterUser user);
         Task<UserIdData> CheckEmail(string email);
         Task RegisterWithoutLogin(RegisterUser user);
         Task<IEnumerable<ApplicationUser>> GetUsers();

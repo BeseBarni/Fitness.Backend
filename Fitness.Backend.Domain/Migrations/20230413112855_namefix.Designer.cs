@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fitness.Backend.Domain.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230313235030_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230413112855_namefix")]
+    partial class namefix
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace Fitness.Backend.Domain.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Models.Entity.Image", b =>
+            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Entity.Image", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -57,7 +57,7 @@ namespace Fitness.Backend.Domain.Migrations
                     b.ToTable("ProfilePictures");
                 });
 
-            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Models.Entity.Instructor", b =>
+            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Entity.Instructor", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,7 +88,7 @@ namespace Fitness.Backend.Domain.Migrations
                     b.ToTable("Instructors");
                 });
 
-            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Models.Entity.Lesson", b =>
+            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Entity.Lesson", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -136,7 +136,7 @@ namespace Fitness.Backend.Domain.Migrations
                     b.ToTable("Lessons");
                 });
 
-            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Models.Entity.Sport", b =>
+            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Entity.Sport", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -160,7 +160,7 @@ namespace Fitness.Backend.Domain.Migrations
                     b.ToTable("Sports");
                 });
 
-            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Models.Entity.User", b =>
+            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Entity.User", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -171,6 +171,9 @@ namespace Fitness.Backend.Domain.Migrations
 
                     b.Property<int>("Del")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
 
                     b.Property<int?>("Gender")
                         .HasColumnType("integer");
@@ -221,22 +224,22 @@ namespace Fitness.Backend.Domain.Migrations
                     b.ToTable("LessonUser");
                 });
 
-            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Models.Entity.Instructor", b =>
+            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Entity.Instructor", b =>
                 {
-                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.Entity.User", "User")
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Entity.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Models.Entity.Lesson", b =>
+            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Entity.Lesson", b =>
                 {
-                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.Entity.Instructor", "Instructor")
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Entity.Instructor", "Instructor")
                         .WithMany("Lessons")
                         .HasForeignKey("InstructorId");
 
-                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.Entity.Sport", "Sport")
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Entity.Sport", "Sport")
                         .WithMany()
                         .HasForeignKey("SportId");
 
@@ -245,9 +248,9 @@ namespace Fitness.Backend.Domain.Migrations
                     b.Navigation("Sport");
                 });
 
-            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Models.Entity.User", b =>
+            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Entity.User", b =>
                 {
-                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.Entity.Image", "Image")
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Entity.Image", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId");
 
@@ -256,13 +259,13 @@ namespace Fitness.Backend.Domain.Migrations
 
             modelBuilder.Entity("InstructorSport", b =>
                 {
-                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.Entity.Instructor", null)
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Entity.Instructor", null)
                         .WithMany()
                         .HasForeignKey("InstructorsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.Entity.Sport", null)
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Entity.Sport", null)
                         .WithMany()
                         .HasForeignKey("SportsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -271,20 +274,20 @@ namespace Fitness.Backend.Domain.Migrations
 
             modelBuilder.Entity("LessonUser", b =>
                 {
-                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.Entity.Lesson", null)
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Entity.Lesson", null)
                         .WithMany()
                         .HasForeignKey("LessonsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.Entity.User", null)
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Entity.User", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Models.Entity.Instructor", b =>
+            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Entity.Instructor", b =>
                 {
                     b.Navigation("Lessons");
                 });

@@ -1,8 +1,9 @@
 ﻿using Fitness.Backend.Application.Contracts.Repositories;
+using Fitness.Backend.Application.DataContracts.Entity;
 using Fitness.Backend.Application.DataContracts.Exceptions;
-using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
 using Fitness.Backend.Domain.DbContexts;
 using Fitness.Backend.Domain.Extensions;
+using IdentityModel.Client;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fitness.Backend.Repositories
@@ -19,7 +20,7 @@ namespace Fitness.Backend.Repositories
         public async Task Add(Sport parameters)
         {
             if (context.Sports.DelFilter().Where(p => p.Name == parameters.Name).Count() > 0)
-                throw new ResourceAlreadyExistsException(string.Format("Sport:{0}",parameters.Name));
+                throw new ResourceAlreadyExistsException(string.Format("sport:{0}",parameters.Id));
 
             context.Add(parameters);
 
@@ -30,7 +31,7 @@ namespace Fitness.Backend.Repositories
         {
             var sport = await context.Sports.DelFilter().FirstOrDefaultAsync(p => p.Id == id);
             if (sport == null)
-                throw new ResourceNotFoundException(string.Format("SportId:{0}", id));
+                throw new ResourceNotFoundException(string.Format("sport:{0}", id));
 
             sport.Del = 1;
             await context.SaveChangesAsync();
@@ -47,7 +48,7 @@ namespace Fitness.Backend.Repositories
         {
             var result = await context.Sports.DelFilter().FirstOrDefaultAsync(p => p.Id == id);
             if(result == null)
-                throw new ResourceNotFoundException(string.Format("SportId:{0}", id));
+                throw new ResourceNotFoundException(string.Format("sport:{0}", id));
 
             return result;
         }
@@ -57,7 +58,7 @@ namespace Fitness.Backend.Repositories
             var sport = context.Sports.DelFilter().FirstOrDefault(p => p.Id == parameters.Id);
 
             if (sport == null)
-                throw new ResourceNotFoundException(string.Format("SportId:{0}", parameters.Id));
+                throw new ResourceNotFoundException(string.Format("sport:{0}", parameters.Id));
 
             sport.Name = parameters.Name;
             await context.SaveChangesAsync();
@@ -65,8 +66,8 @@ namespace Fitness.Backend.Repositories
 
         public async Task<IEnumerable<Instructor>?> GetInstructors(string sportId)
         {
-            var sport = await context.Sports.DelFilter().FirstOrDefaultAsync(p => p.Id == sportId);
-            if (sport == null) throw new ResourceNotFoundException();
+            var sport = await context.Sports.Include(s => s.Instructors).DelFilter().FirstOrDefaultAsync(p => p.Id == sportId);
+            if (sport == null) throw new ResourceNotFoundException(string.Format("sport:{0}", sportId));
 
             return sport.Instructors;
 

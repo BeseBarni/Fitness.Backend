@@ -1,6 +1,6 @@
 ﻿using Fitness.Backend.Application.Contracts.Repositories;
+using Fitness.Backend.Application.DataContracts.Entity;
 using Fitness.Backend.Application.DataContracts.Exceptions;
-using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
 using Fitness.Backend.Domain.DbContexts;
 using Fitness.Backend.Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -17,13 +17,9 @@ namespace Fitness.Backend.Repositories
         }
         public async Task<IEnumerable<User>?> GetLessonUsers(string lessonId)
         {
-            var result = await context.Lessons.DelFilter().FirstOrDefaultAsync(p => p.Id == lessonId);
+            var result = await context.Lessons.Include(l => l.Users).DelFilter().FirstOrDefaultAsync(p => p.Id == lessonId);
             if (result == null)
-                throw new ResourceNotFoundException(string.Format("LessonId:{0}", lessonId));
-
-            context.Entry(result)
-                .Collection(b => b.Users)
-                .Load();
+                throw new ResourceNotFoundException(string.Format("lesson:{0}", lessonId));
 
             return result.Users;
         }
@@ -40,7 +36,7 @@ namespace Fitness.Backend.Repositories
         {
             var lesson = await context.Lessons.DelFilter().FirstOrDefaultAsync(p => p.Id == id);
             if (lesson == null)
-                throw new ResourceNotFoundException(string.Format("LessonId:{0}", id));
+                throw new ResourceNotFoundException(string.Format("lesson:{0}", id));
 
             lesson.Del = 1;
             await context.SaveChangesAsync();
@@ -50,7 +46,7 @@ namespace Fitness.Backend.Repositories
         {
             var lesson = await context.Lessons.DelFilter().FirstOrDefaultAsync(p => p.Id == parameters.Id);
             if (lesson == null)
-                throw new ResourceNotFoundException(string.Format("LessonId:{0}", parameters.Id));
+                throw new ResourceNotFoundException(string.Format("lesson:{0}", parameters.Id));
 
             lesson.Name = parameters.Name ?? lesson.Name;
             lesson.Location = parameters.Location ?? lesson.Location;
@@ -74,7 +70,7 @@ namespace Fitness.Backend.Repositories
         {
             var result = await context.Lessons.DelFilter().FirstOrDefaultAsync(p => p.Id == id);
             if(result == null)
-                throw new ResourceNotFoundException(string.Format("LessonId:{0}", id));
+                throw new ResourceNotFoundException(string.Format("lesson:{0}", id));
 
             return result;
         }
@@ -93,12 +89,12 @@ namespace Fitness.Backend.Repositories
         {
             var result = await context.Lessons.DelFilter().FirstOrDefaultAsync(p => p.Id == lessonId);
             if (result == null)
-                throw new ResourceNotFoundException(string.Format("LessonId:{0}", lessonId));
+                throw new ResourceNotFoundException(string.Format("lesson:{0}", lessonId));
 
             var user = await context.Clients.DelFilter().FirstOrDefaultAsync(p => p.Id == userId);
 
             if (user == null)
-                throw new ResourceNotFoundException(string.Format("UserId:{0}",userId));
+                throw new ResourceNotFoundException(string.Format("user:{0}",userId));
             result.Users = result.Users ?? new List<User>();
             result.Users.Add(user);
             await context.SaveChangesAsync();

@@ -6,7 +6,7 @@
     /// <typeparam name="T"></typeparam>
     public interface IBaseRepository<T>
     {
-        public abstract Task<IEnumerable<T>?> GetAll(T? parameters);
+        public abstract Task<IEnumerable<T>> GetAll(T? parameters);
         public abstract Task Delete(string id);
         public abstract Task Update(T parameters);
         public abstract Task Add(T parameters);

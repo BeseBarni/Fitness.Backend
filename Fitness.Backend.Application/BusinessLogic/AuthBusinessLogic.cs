@@ -1,11 +1,10 @@
 ﻿using Fitness.Backend.Application.Contracts.BusinessLogic;
 using Fitness.Backend.Application.Contracts.Repositories;
 using Fitness.Backend.Application.Contracts.Services;
+using Fitness.Backend.Application.DataContracts.Entity;
 using Fitness.Backend.Application.DataContracts.Enums;
 using Fitness.Backend.Application.DataContracts.Exceptions;
-using Fitness.Backend.Application.DataContracts.Models.Entity;
-using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
-using Fitness.Backend.Application.DataContracts.Models.ViewModels;
+using Fitness.Backend.Application.DataContracts.Models;
 using Fitness.Backend.Domain.DbContexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -23,9 +22,10 @@ namespace Fitness.Backend.Application.BusinessLogic
         private readonly IAuthTokenService tokenService;
         private readonly IInstructorRepository instructorRepo;
         private readonly IUserRepository userRepo;
+        private readonly IUserBusinessLogic userBl;
         private readonly AuthDbContext authContext;
 
-        public AuthBusinessLogic(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IAuthTokenService tokenService, IInstructorRepository instructorRepo, IUserRepository userRepo, AuthDbContext authContext)
+        public AuthBusinessLogic(IUserBusinessLogic userBl,UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IAuthTokenService tokenService, IInstructorRepository instructorRepo, IUserRepository userRepo, AuthDbContext authContext)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -33,6 +33,7 @@ namespace Fitness.Backend.Application.BusinessLogic
             this.instructorRepo = instructorRepo;
             this.userRepo = userRepo;
             this.authContext = authContext;
+            this.userBl = userBl;
         }
 
         public async Task<IEnumerable<ApplicationUser>> GetUsers()
@@ -40,11 +41,13 @@ namespace Fitness.Backend.Application.BusinessLogic
             return await userManager.Users.ToListAsync();
         }
 
-        public async Task<string> Login(LoginUser user)
+        public async Task<LoggedInUserData> Login(LoginUser user)
         {
             var authUser = await userManager.FindByEmailAsync(user.Email);
 
-            if (authUser == null)
+            if (authUser is null)
+                throw new ResourceNotFoundException();
+            if (authUser.UserName is null)
                 throw new ResourceNotFoundException();
 
             var result = await userManager.CheckPasswordAsync(authUser, user.Password);
@@ -68,13 +71,17 @@ namespace Fitness.Backend.Application.BusinessLogic
 
                 if (userRoles.Contains("Instructor"))
                 {
-                    var inst = await instructorRepo.GetAll(new Instructor { UserId = authUser.Id });
-                    authClaims.Add(new Claim("instructorStatus", inst.First().Status.ToString()));
+                    var inst = await instructorRepo.GetOne(authUser.Id);
+
+                    authClaims.Add(new Claim("instructorStatus", inst.Status.ToString()));
 
                 }
 
                 var token = tokenService.GenerateToken(authClaims);
-                return (new JwtSecurityTokenHandler().WriteToken(token));
+
+                var loginUser = await userRepo.GetOne(authUser.Id);
+                return new LoggedInUserData { JwtToken = new JwtSecurityTokenHandler().WriteToken(token), Email = loginUser.Email,
+                 Gender = loginUser.Gender, Id = loginUser.Id, ImageId = loginUser.ImageId, Name = loginUser.Name};
             }
             throw new UnauthorizedException();
         }
@@ -89,7 +96,7 @@ namespace Fitness.Backend.Application.BusinessLogic
 
             return new UserIdData(authUser.Id);
         }
-        public async Task<string> Register(RegisterUser user)
+        public async Task<LoggedInUserData> Register(RegisterUser user)
         {
             var u = new ApplicationUser
             {

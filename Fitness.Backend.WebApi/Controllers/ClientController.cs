@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Fitness.Backend.Application.Contracts.BusinessLogic;
 using Fitness.Backend.Application.Contracts.Repositories;
+using Fitness.Backend.Application.DataContracts.Entity;
 using Fitness.Backend.Application.DataContracts.Enums;
-using Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities;
-using Fitness.Backend.Application.DataContracts.Models.ViewModels;
+using Fitness.Backend.Application.DataContracts.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +17,12 @@ namespace Fitness.Backend.WebApi.Controllers
     public class ClientController : ControllerBase
     {
 
-        private readonly IUserRepository repo;
+        private readonly IUserBusinessLogic bl;
         private readonly IMapper mapper;
 
-        public ClientController(IUserRepository repo, IMapper mapper)
+        public ClientController(IUserBusinessLogic bl, IMapper mapper)
         {
-            this.repo = repo;
+            this.bl = bl;
             this.mapper = mapper;
         }
 
@@ -30,33 +30,33 @@ namespace Fitness.Backend.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<UserData>> Get(string clientId)
         {
-            var result = await repo.GetOne(clientId);
+            var result = await bl.GetOne(clientId);
 
-            return Ok(mapper.Map<UserData>(result));
+            return Ok(result);
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<UserData>>> Get()
         {
-            var result = await repo.GetAll(null);
+            var result = await bl.GetAll(null);
 
-            return Ok(result.Select(mapper.Map<UserData>));
+            return Ok(result);
         }
 
         [HttpGet("{clientId}/Lessons")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<LessonData>>> GetLessons(string clientId)
         {
-            var result = await repo.GetLessons(clientId);
-            return Ok(result.Select(mapper.Map<LessonData>));
+            var result = await bl.GetLessons(clientId);
+            return Ok(result);
         }
 
         [HttpGet("{clientId}/Picture")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetPicture(string clientId)
         {
-            var result = await repo.GetImage(clientId);
+            var result = await bl.GetImage(clientId);
 
             return File(result.ImageData, result.ContentType, result.Name);
         }
@@ -65,7 +65,7 @@ namespace Fitness.Backend.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<LessonData>>> AddPicture(string clientId, IFormFile image)
         {
-            await repo.AddImage(clientId, image);
+            await bl.AddImage(clientId, image);
             return NoContent();
         }
 
@@ -74,7 +74,7 @@ namespace Fitness.Backend.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<IEnumerable<LessonData>>> AddLesson(string clientId, string lessonId)
         {
-            await repo.AddLesson(lessonId, clientId);
+            await bl.AddLesson(lessonId, clientId);
 
             return NoContent();
         }
@@ -84,7 +84,7 @@ namespace Fitness.Backend.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete(string clientId)
         {
-            await repo.Delete(clientId);
+            await bl.Delete(clientId);
 
             return NoContent();
         }
@@ -95,7 +95,7 @@ namespace Fitness.Backend.WebApi.Controllers
         public async Task<ActionResult> Put([FromBody] UserData user)
         {
 
-            await repo.Update(mapper.Map<User>(user));
+            await bl.Update(user);
             return NoContent();
         }
 

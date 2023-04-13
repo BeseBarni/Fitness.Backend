@@ -1,5 +1,5 @@
 ﻿using Fitness.Backend.Application.DataContracts.Enums;
-using Fitness.Backend.Application.DataContracts.Models.Entity.Interfaces;
+using Fitness.Backend.Application.DataContracts.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fitness.Backend.Application.DataContracts.Models.Entity.DatabaseEntities
+namespace Fitness.Backend.Application.DataContracts.Entity
 {
     public class Lesson : IDeleteable, IDateTrackeable
     {

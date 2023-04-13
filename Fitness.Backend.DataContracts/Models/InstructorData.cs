@@ -1,7 +1,7 @@
-﻿using Fitness.Backend.Application.DataContracts.Models.Entity;
+﻿using Fitness.Backend.Application.DataContracts.Models;
 using Fitness.Backend.Application.DataContracts.Enums;
 
-namespace Fitness.Backend.Application.DataContracts.Models.ViewModels
+namespace Fitness.Backend.Application.DataContracts.Models
 {
     public class InstructorData
     {
