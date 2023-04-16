@@ -22,6 +22,15 @@ namespace Fitness.Backend.WebApi.Filters
 
                 context.ExceptionHandled = true;
             }
+            if (context.Exception is ResourceAlreadyExistsException e)
+            {
+                context.Result = new ObjectResult(e.Message)
+                {
+                    StatusCode = 400
+                };
+
+                context.ExceptionHandled = true;
+            }
         }
     }
 }

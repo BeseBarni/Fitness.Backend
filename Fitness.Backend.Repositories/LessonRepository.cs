@@ -21,7 +21,15 @@ namespace Fitness.Backend.Repositories
             if (result == null)
                 throw new ResourceNotFoundException(string.Format("lesson:{0}", lessonId));
 
-            return result.Users;
+            
+            return result.Users.Select(p => new User
+            {
+                Id =p.Id,
+                Name = p.Name,
+                Email = p.Email,
+                Gender =p.Gender,
+                ImageId = p.ImageId
+            });
         }
 
         public async Task<IEnumerable<Lesson>?> GetAll(Lesson? parameters)

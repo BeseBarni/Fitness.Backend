@@ -47,7 +47,7 @@ namespace Fitness.Backend.Application.BusinessLogic
 
             if (authUser is null)
                 throw new ResourceNotFoundException();
-            if (authUser.UserName is null)
+            if (authUser.Email is null)
                 throw new ResourceNotFoundException();
 
             var result = await userManager.CheckPasswordAsync(authUser, user.Password);
@@ -61,7 +61,7 @@ namespace Fitness.Backend.Application.BusinessLogic
 
                 var authClaims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, authUser.UserName),
+                    new Claim(ClaimTypes.Name, authUser.Name),
                     new Claim("emailConfirmed", authUser.EmailConfirmed.ToString())
                 };
                 foreach (var role in userRoles)
@@ -98,35 +98,23 @@ namespace Fitness.Backend.Application.BusinessLogic
         }
         public async Task<LoggedInUserData> Register(RegisterUser user)
         {
-            var u = new ApplicationUser
-            {
-                UserName = user.Name,
-                Email = user.Email,
-                EmailConfirmed = true,
-                NormalizedEmail = user.Email.ToUpper(),
-            };
 
-            var password = new PasswordHasher<ApplicationUser>();
-            var hashed = password.HashPassword(u, user.Password);
-            u.PasswordHash = hashed;
-
-            var userStore = new UserStore<ApplicationUser>(authContext);
-            await userStore.CreateAsync(u);
-
-            string role = user.IsInstructor ? "Instructor" : "Client";
-            await userManager.AddToRoleAsync(u, role);
-
-            await userRepo.Add(new User { Id = u.Id, Name = u.UserName, Gender = user.Gender });
-            if (user.IsInstructor)
-                await instructorRepo.Add(new Instructor { UserId = u.Id, Status = InstructorStatus.ACCEPTED });
+            await RegisterWithoutLogin(user);
             return await Login(new LoginUser { Email = user.Email, Password = user.Password });
         }
         
         public async Task RegisterWithoutLogin(RegisterUser user)
         {
+            var authUser = await userManager.FindByEmailAsync(user.Email);
+
+            if (authUser is not null)
+                throw new ResourceAlreadyExistsException(user.Email);
+
             var u = new ApplicationUser
             {
-                UserName = user.Name,
+                Name = user.Name,
+                UserName = user.Email,
+                NormalizedUserName = user.Email.ToUpper(),
                 Email = user.Email,
                 EmailConfirmed = true,
                 NormalizedEmail = user.Email.ToUpper(),
@@ -136,16 +124,14 @@ namespace Fitness.Backend.Application.BusinessLogic
             var hashed = password.HashPassword(u, user.Password);
             u.PasswordHash = hashed;
 
-            var userStore = new UserStore<ApplicationUser>(authContext);
-            await userStore.CreateAsync(u);
-            await authContext.SaveChangesAsync();
-
+            await userManager.CreateAsync(u);
+            
             string role = user.IsInstructor ? "Instructor" : "Client";
             await userManager.AddToRoleAsync(u, role);
 
-            await userRepo.Add(new User { Id = u.Id, Name = u.UserName, Gender = user.Gender });
+            await userRepo.Add(new User { Id = u.Id, Name = u.Name, Gender = user.Gender, Email = user.Email });
             if (user.IsInstructor)
-                await instructorRepo.Add(new Instructor { UserId = u.Id, Status = InstructorStatus.ACCEPTED });
+                await instructorRepo.Add(new Instructor { UserId = u.Id, Id = u.Id, Status = InstructorStatus.ACCEPTED });
         }
 
     }

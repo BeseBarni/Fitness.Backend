@@ -20,6 +20,8 @@ namespace Fitness.Backend.Domain.DbContexts
 
             base.OnModelCreating(builder);
 
+
+
         }
     }
 }
