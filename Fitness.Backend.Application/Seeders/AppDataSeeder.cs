@@ -59,6 +59,7 @@ namespace Fitness.Backend.Application.Seeders
                     instructor.Sports.Add(sports[r.Next(0, sports.Count())]);
                     var time = DateTime.UtcNow;
                     time.AddHours(r.Next(0, 24));
+                    time.AddDays(i);
                     lessons.Add(new Lesson
                     {
                         Instructor = instructor,
@@ -66,7 +67,7 @@ namespace Fitness.Backend.Application.Seeders
                         MaxNumber = r.Next(10, 30),
                         Day = (Day)i,
                         StartTime = time,
-                        EndTime = DateTime.UtcNow.AddMinutes(r.Next(30,120)),
+                        EndTime = time.AddMinutes(r.Next(30,120)),
                         Name = string.Format("{0} {1} órája", instructor.User.Name, instructor.Sports.First().Name),
                         Users = new List<User>()
                     });
