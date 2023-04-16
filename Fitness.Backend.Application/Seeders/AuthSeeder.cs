@@ -36,6 +36,8 @@ namespace Fitness.Backend.Application.Seeders
             _context.Database.Migrate();
             appContext.Database.Migrate();
 
+
+
             string[] roles = new string[] { "Administrator", "Instructor", "Client" };
 
             foreach (string role in roles)
@@ -47,6 +49,9 @@ namespace Fitness.Backend.Application.Seeders
                     await roleStore.CreateAsync(new IdentityRole(role) { NormalizedName = role.ToUpper() });
                 }
             }
+
+            var list = _context.UserRoles.ToList();
+            var rlist = _context.Roles.ToList();
 
             if (_userManager.Users.Any())
                 return;
@@ -135,7 +140,9 @@ namespace Fitness.Backend.Application.Seeders
 
             var u = new ApplicationUser
             {
-                UserName = "Admin Pisti",
+                Name = "Admin Pisti",
+                UserName = "fitness.admin@backend.com",
+                NormalizedUserName = "fitness.admin@backend.com".ToUpper(),
                 Email = "fitness.admin@backend.com",
                 EmailConfirmed = true,
                 NormalizedEmail = "fitness.admin@backend.com".ToUpper()
@@ -145,12 +152,11 @@ namespace Fitness.Backend.Application.Seeders
             var hashed = password.HashPassword(u, "fitness");
             u.PasswordHash = hashed;
 
-            var userStore = new UserStore<ApplicationUser>(_context);
-            await userStore.CreateAsync(u);
+            await _userManager.CreateAsync(u);
 
-            await _userManager.AddToRoleAsync(u, roles[0]);
+            var suc = await _userManager.AddToRoleAsync(u, roles[0]);
 
-            await userRepo.Add(new User { Id = u.Id, Name = u.UserName, Gender = Gender.MALE, Email = u.Email });
+            await userRepo.Add(new User { Id = u.Id, Name = u.Name, Gender = Gender.MALE, Email = u.Email });
 
             await _context.SaveChangesAsync();
         }

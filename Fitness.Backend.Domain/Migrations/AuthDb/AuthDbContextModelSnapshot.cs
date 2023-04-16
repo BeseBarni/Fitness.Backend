@@ -163,7 +163,7 @@ namespace Fitness.Backend.Domain.Migrations.AuthDb
                     b.ToTable("PersistedGrants", (string)null);
                 });
 
-            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Fitness.Backend.Application.DataContracts.Entity.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -187,6 +187,10 @@ namespace Fitness.Backend.Domain.Migrations.AuthDb
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -370,7 +374,7 @@ namespace Fitness.Backend.Domain.Migrations.AuthDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.ApplicationUser", null)
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Entity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -379,7 +383,7 @@ namespace Fitness.Backend.Domain.Migrations.AuthDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.ApplicationUser", null)
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Entity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -394,7 +398,7 @@ namespace Fitness.Backend.Domain.Migrations.AuthDb
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.ApplicationUser", null)
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Entity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -403,7 +407,7 @@ namespace Fitness.Backend.Domain.Migrations.AuthDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Fitness.Backend.Application.DataContracts.Models.ApplicationUser", null)
+                    b.HasOne("Fitness.Backend.Application.DataContracts.Entity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
