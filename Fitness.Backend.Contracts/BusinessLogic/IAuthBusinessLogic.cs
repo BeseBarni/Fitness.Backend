@@ -8,7 +8,7 @@ namespace Fitness.Backend.Application.Contracts.BusinessLogic
         Task<LoggedInUserData> Login(LoginUser user);
         Task<LoggedInUserData> Register(RegisterUser user);
         Task<UserIdData> CheckEmail(string email);
-        Task RegisterWithoutLogin(RegisterUser user);
+        Task RegisterWithoutLogin(RegisterUser user, bool instructorPending = false);
         Task<IEnumerable<ApplicationUser>> GetUsers();
     }
 }

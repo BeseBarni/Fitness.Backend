@@ -118,7 +118,7 @@ namespace Fitness.Backend.Repositories
             var imgs = await context.ProfilePictures.ToListAsync();
 
             if(result.Image == null) throw new ResourceNotFoundException($"user:{userId}_image");
-
+            
             return result.Image;
 
         }

@@ -99,11 +99,11 @@ namespace Fitness.Backend.Application.BusinessLogic
         public async Task<LoggedInUserData> Register(RegisterUser user)
         {
 
-            await RegisterWithoutLogin(user);
+            await RegisterWithoutLogin(user, true);
             return await Login(new LoginUser { Email = user.Email, Password = user.Password });
         }
         
-        public async Task RegisterWithoutLogin(RegisterUser user)
+        public async Task RegisterWithoutLogin(RegisterUser user, bool instructorPending = false)
         {
             var authUser = await userManager.FindByEmailAsync(user.Email);
 
@@ -130,8 +130,9 @@ namespace Fitness.Backend.Application.BusinessLogic
             await userManager.AddToRoleAsync(u, role);
 
             await userRepo.Add(new User { Id = u.Id, Name = u.Name, Gender = user.Gender, Email = user.Email });
+            var status = instructorPending ? InstructorStatus.VALIDATION_PENDING : InstructorStatus.ACCEPTED;
             if (user.IsInstructor)
-                await instructorRepo.Add(new Instructor { UserId = u.Id, Id = u.Id, Status = InstructorStatus.ACCEPTED });
+                await instructorRepo.Add(new Instructor { UserId = u.Id, Id = u.Id, Status = status });
         }
 
     }

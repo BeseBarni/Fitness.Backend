@@ -5,6 +5,7 @@ using Fitness.Backend.Application.DataContracts.Entity;
 using Fitness.Backend.Application.DataContracts.Models;
 using Fitness.Backend.Application.Extensions;
 using IdentityModel.Client;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace Fitness.Backend.Application.BusinessLogic
@@ -64,6 +65,20 @@ namespace Fitness.Backend.Application.BusinessLogic
         public async Task Update(SportData parameters)
         {
             await repo.Update(mapper.Map<Sport>(parameters));
+        }
+
+        public async Task<Image> GetImage(string sportId)
+        {
+            var key = $"sport:{sportId}_image";
+            var result = await cache.GetAsync(key, repo.GetImage, sportId);
+
+            return result;
+
+        }
+
+        public async Task AddImage(string sportId, IFormFile image)
+        {
+            await repo.AddImage(sportId, image);
         }
     }
 }

@@ -71,5 +71,23 @@ namespace Fitness.Backend.WebApi.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("{sportId}/Picture")]
+        [Authorize(Roles = "Administrator")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<LessonData>>> AddPicture(string sportId, IFormFile image)
+        {
+            await bl.AddImage(sportId, image);
+            return NoContent();
+        }
+
+        [HttpGet("{sportId}/Picture")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetPicture(string sportId)
+        {
+            var result = await bl.GetImage(sportId);
+
+            return File(result.ImageData, result.ContentType, result.Name);
+        }
     }
 }
