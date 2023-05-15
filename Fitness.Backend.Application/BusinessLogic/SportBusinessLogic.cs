@@ -26,11 +26,14 @@ namespace Fitness.Backend.Application.BusinessLogic
         public async Task Add(SportData parameters)
         {
             await repo.Add(mapper.Map<Sport>(parameters));
+            await cache.RemoveAsync("get_all_sports");
         }
 
         public async Task Delete(string id)
         {
             await repo.Delete(id);
+            await cache.RemoveAsync("get_all_sports");
+
 
         }
 
@@ -65,6 +68,8 @@ namespace Fitness.Backend.Application.BusinessLogic
         public async Task Update(SportData parameters)
         {
             await repo.Update(mapper.Map<Sport>(parameters));
+            await cache.RemoveAsync("get_all_sports");
+
         }
 
         public async Task<Image> GetImage(string sportId)

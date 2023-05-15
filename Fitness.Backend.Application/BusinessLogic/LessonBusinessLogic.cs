@@ -25,6 +25,7 @@ namespace Fitness.Backend.Application.BusinessLogic
         public async Task Add(LessonData parameters)
         {
             await repo.Add(mapper.Map<Lesson>(parameters));
+            await cache.RemoveAsync("get_all_lesson");
         }
 
         public async Task AddClient(string lessonId, string userId)
