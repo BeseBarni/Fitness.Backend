@@ -31,6 +31,8 @@ namespace Fitness.Backend.Application.BusinessLogic
         public async Task AddImage(string userId, IFormFile image)
         {
             await repo.AddImage(userId, image);
+            var key = $"user:{userId}_image";
+            await cache.RemoveAsync(key);
         }
 
         public async Task AddLesson(string lessonId, string userId)
